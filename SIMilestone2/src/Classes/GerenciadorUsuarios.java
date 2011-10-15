@@ -1024,6 +1024,9 @@ public class GerenciadorUsuarios {
 			String atividade2 = nome2 +" e " + nome1 + " são amigos agora";
 			buscarUsuarioPorLogin(login).addAtividade(atividade2);
 		}
+		
+		
+		
 	}
 	
 	public void adicionarAtividadesUsuario(String idSessao, Usuario usr, Item it) throws Exception{
@@ -1058,6 +1061,9 @@ public class GerenciadorUsuarios {
 			String atividade1 =  nome1 + " confirmou o término do empréstimo do item " + it.getNome();
 			buscarUsuarioPorID(idSessao).addAtividade(atividade1);
 		}
+		
+		
+		
 			
 	}
 	

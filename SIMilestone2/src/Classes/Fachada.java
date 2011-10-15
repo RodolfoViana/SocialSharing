@@ -315,19 +315,59 @@ public class Fachada {
 	}
 	
 	public String publicarPedido (String idSessao, String nomeItem, String descricaoItem) throws Exception{
-		Usuario usuario = this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
+		this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
 		
+		if (!stringValida(nomeItem)){
+			throw new Exception ("Nome inválido");
+		}
 		
+		if (!stringValida(descricaoItem)){
+			throw new Exception ("Descrição inválida");
+		}
 		
-		String idPublicacaoPedido = ""; 
+		String nome1 = getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).getNome();
+		String atividade = nome1 + " precisa do item " + nomeItem;
+		getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).addAtividade(atividade);
+		
+		String idPublicacaoPedido = idSessao; 
 		
 		return idPublicacaoPedido;
 	}
 	
 	public void oferecerItem (String idSessao, String idPublicacaoPedido, String idItem) throws Exception{
-		Usuario usuario = this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
+		this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
+		
+		if (!stringValida(idPublicacaoPedido)){
+			throw new Exception ("Identificador da publicação de pedido é inválido");
+		}
+		
+		try {
+			getGerenciadorUsuarios().buscarUsuarioPorID(idPublicacaoPedido);
+		} catch (Exception e){
+			throw new Exception ("Publicação de pedido inexistente");
+		}
+		
+		getGerenciadorUsuarios().buscarItemPorID(idItem);
+		
+		String assunto = "O usuário " + getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).getNome() + " ofereceu o item " + getGerenciadorUsuarios().buscarItemPorID(idItem).getNome(); 
+		String mensagem = "Item oferecido: " + getGerenciadorUsuarios().buscarItemPorID(idItem).getNome() + " - " + getGerenciadorUsuarios().buscarItemPorID(idItem).getDescricao();
+		String login = getGerenciadorUsuarios().buscarUsuarioPorID(idPublicacaoPedido).getLogin();
+		
+		
+		getGerenciadorUsuarios().enviarMensagem(idSessao, login, assunto, mensagem);
 		
 	}
+	
+	public void rePublicarPedido (String idSessao, String idPublicacaoPedido){
+		
+	}
+	
+	private boolean stringValida(String string){
+        if (string == null || string.isEmpty()){
+            return false;
+        }
+        return true;
+    }
 
 		
 	
