@@ -312,7 +312,23 @@ public class Fachada {
 	public String historicoAtividadesConjunto(String idSessao) throws Exception{
 		
 		return this.getGerenciadorUsuarios().historicoAtividadesConjunto(idSessao);
+	}
+	
+	public String publicarPedido (String idSessao, String nomeItem, String descricaoItem) throws Exception{
+		Usuario usuario = this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
 		
+		
+		
+		String idPublicacaoPedido = ""; 
+		
+		return idPublicacaoPedido;
+	}
+	
+	public void oferecerItem (String idSessao, String idPublicacaoPedido, String idItem) throws Exception{
+		Usuario usuario = this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
 		
 	}
+
+		
+	
 }
