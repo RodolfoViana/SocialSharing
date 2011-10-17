@@ -13,6 +13,7 @@ public class Item {
 	private String nome;
 	private String descricao;
     private String categoria;
+    private String outrasCategorias = "";
     private String idItem;
     private Emprestimo emprestimo;
     
@@ -64,6 +65,10 @@ public class Item {
     
     public String getDescricao(){
     	return descricao;
+    }
+    
+    public String getOutrasCategorias(){
+    	return outrasCategorias;
     }
     
     /**
@@ -144,6 +149,14 @@ public class Item {
     	if (categoria.toLowerCase().equals("livro") || categoria.toLowerCase().equals("filme") || categoria.toLowerCase().equals("jogo")){
     		resp = true;
     	}
+    	else if(categoria.split(",").length>1){
+    		
+    		for(String categorias : categoria.split(",")){
+    			outrasCategorias += categorias.trim() + "/";
+    		}
+
+    		resp = true;
+    	}
     	return resp;
     }
     
@@ -176,8 +189,21 @@ public class Item {
     		}
     	} else if (atributo.equals("categoria")){
     		if (this.getCategoria().equalsIgnoreCase(chave)){
+    			
     			return this.getNome();
     		}
+    		
+    		if(!this.getOutrasCategorias().isEmpty()){
+    			
+    			for(String categorias : outrasCategorias.split("/")){
+        			if(categorias.equalsIgnoreCase(chave)){
+        				return this.getNome();
+        			}
+        		}
+    		}
+    		
+    		
+    		
     	} else {
     		//TODO Lanca execao 
     	}
