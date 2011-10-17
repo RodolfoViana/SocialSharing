@@ -193,7 +193,12 @@ public class Usuario {
 		return atividades.getAtividades();
 	}
 	
+	
+	
 	public void addAtividade(String atividade){
 		atividades.adicionarAtividades(atividade);
 	}
+	
+	
+	
 }

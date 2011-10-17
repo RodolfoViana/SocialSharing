@@ -1,5 +1,6 @@
 package Classes;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -214,8 +215,9 @@ public class GerenciadorUsuarios {
 	}
 
 	private String buscarPerfisDeUsuarios(String id, String chave,
-			String atributo) {
+			String atributo) throws IOException {
 		String listaUsuarios = "";
+		List<Usuario> listUsuarios = new ArrayList<Usuario>();
 		int cont = 0;
 		for (int i = 0; i<=listaDeUsuarios.size() - 1; i++) {
 			Usuario usr = listaDeUsuarios.get(i);
@@ -225,28 +227,99 @@ public class GerenciadorUsuarios {
 								.contains(chave.toLowerCase())) {
 					if (cont == 0) {
 						listaUsuarios += usr.visualizarPerfil();
+						listUsuarios.add(usr);
 					} else {
-						listaUsuarios += usr.visualizarPerfil() + "; ";
+						listaUsuarios += "; " +usr.visualizarPerfil() ;
 
 					}
 					cont++;
+					if(!listUsuarios.contains(usr)){
+						listUsuarios.add(usr);
+					}
 				} else if (atributo.equals("endereco")
 						&& usr.getEndereco().toLowerCase()
 								.contains(chave.toLowerCase())) {
 					if (cont == 0) {
 						listaUsuarios += usr.visualizarPerfil();
+						
 					} else {
 						listaUsuarios += "; " + usr.visualizarPerfil();
 					}
 					cont++;
+					if(!listUsuarios.contains(usr)){
+						listUsuarios.add(usr);
+					}
 				}
 			}
 		}
 		if (listaUsuarios.equals("")) {
 			return "Nenhum usuário encontrado";
 		}
-		return listaUsuarios;
+
+		GeocodificaEnderecos geoc = new GeocodificaEnderecos();
+		
+		double distancia;
+		Usuario usrLogado = null;
+		List<Double> listaDistancia = new ArrayList<Double>();
+		try {
+			usrLogado = this.buscarUsuarioPorID(id);
+		} catch (Exception e) {
+		}
+		
+		for(Usuario usr:listUsuarios){
+			distancia = geoc.calculaDistancia(usrLogado, usr);
+			listaDistancia.add(distancia);
+		}
+		
+		
+		Usuario[] listaUsuariosOrdenadoDistancia = new Usuario[listUsuarios.size()];
+		Usuario[] x = new Usuario[listaDistancia.size()];
+		int cont2 = 0;
+		
+	
+		
+		for(int i = 0; i<x.length;i++){
+			int indice = recuperaIndiceDoMenorDaLista(listaDistancia);
+			listaDistancia.remove(indice);
+			listaUsuariosOrdenadoDistancia[cont2]=(listUsuarios.remove(indice));
+			cont2++;
+
+		}
+
+		String resposta = "";
+		
+		for(int i = 0 ;i <listaUsuariosOrdenadoDistancia.length;i++){
+			if(i==listaUsuariosOrdenadoDistancia.length-1){
+				resposta +=listaUsuariosOrdenadoDistancia[i].visualizarPerfil();
+			}
+			else{
+				resposta +=listaUsuariosOrdenadoDistancia[i].visualizarPerfil() + "; ";
+			}
+		}
+		return resposta;
+//		return listaUsuarios;
 	}
+	
+	private void imprimirArray(Usuario[] x){
+		
+		for(Usuario z : x){
+			System.out.println(z.getNome());
+		}
+		
+	}
+	
+	private int recuperaIndiceDoMenorDaLista(List<Double> lista){
+		int indice = 0;
+		double menorDalista = Double.MAX_VALUE;
+		for(int i = 0  ; i< lista.size();i++){
+			if(lista.get(i)<menorDalista){
+				indice = i;
+				menorDalista = lista.get(i);
+			}
+		}return indice;
+		
+	}
+	
 	/**
 	 * Busca um Usuario atraves do ID de Sessao do mesmo
 	 * @param idSessao
@@ -1106,7 +1179,6 @@ public class GerenciadorUsuarios {
 	return (removePontoVirgula(formataString2(temp2)));
 		
 	}
-	
 	
 	private String removePontoVirgula(String str){
 		

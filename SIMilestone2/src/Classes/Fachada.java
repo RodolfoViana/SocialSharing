@@ -362,6 +362,9 @@ public class Fachada {
 		
 	}
 	
+	
+	
+	
 	private boolean stringValida(String string){
         if (string == null || string.isEmpty()){
             return false;
