@@ -109,6 +109,10 @@ public class Fachada {
 		return getGerenciadorUsuarios().localizarUsuario(idSessao, chave,
 				atributo);
 	}
+	
+	public String localizarUsuario(String idSessao)throws Exception{
+		return this.getGerenciadorUsuarios().localizarUsuario(idSessao);
+	}
 
 	public String getAtributoItem(String idItem, String atributo)throws Exception {
 		return getGerenciadorUsuarios().buscarDonoItem(idItem)

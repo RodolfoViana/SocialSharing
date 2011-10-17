@@ -137,7 +137,64 @@ public class GerenciadorUsuarios {
 		} else {
 			throw new Exception("Atributo inexistente");
 		}
+	}
+	
+	public String localizarUsuario(String id) throws Exception{
+		if (!stringValida(id)) {
+			throw new Exception("Sessão inválida");
+		} else if (buscarUsuarioPorID(id) == null) {
+			throw new Exception("Sessão inexistente");
+		}
+		
+		List<Usuario> listUsuarios = new ArrayList<Usuario>();
+		int cont = 0;
+		for (int i = 0; i<=listaDeUsuarios.size() - 1; i++) {
+			Usuario usr = listaDeUsuarios.get(i);
+			if(!listUsuarios.contains(usr) && !usr.equals(buscarUsuarioPorID(id))){
+				listUsuarios.add(usr);
+			}
+		}
+		if (listUsuarios.isEmpty()) {
+			return "Nenhum usuário encontrado";
+		}
+		
+		GeocodificaEnderecos geoc = new GeocodificaEnderecos();
+		
+		double distancia;
+		Usuario usrLogado = null;
+		List<Double> listaDistancia = new ArrayList<Double>();
+		try {
+			usrLogado = this.buscarUsuarioPorID(id);
+		} catch (Exception e) {
+		}
+		
+		for(Usuario usr:listUsuarios){
+			distancia = geoc.calculaDistancia(usrLogado, usr);
+			listaDistancia.add(distancia);
+		}
+		
+		
+		Usuario[] listaUsuariosOrdenadoDistancia = new Usuario[listUsuarios.size()];
+		Usuario[] x = new Usuario[listaDistancia.size()];
+		int cont2 = 0;
+		
+		for(int i = 0; i<x.length;i++){
+			int indice = recuperaIndiceDoMenorDaLista(listaDistancia);
+			listaDistancia.remove(indice);
+			listaUsuariosOrdenadoDistancia[cont2]=(listUsuarios.remove(indice));
+			cont2++;
 
+		}
+		String resposta = "";
+		for(int i = 0 ;i <listaUsuariosOrdenadoDistancia.length;i++){
+			if(i==listaUsuariosOrdenadoDistancia.length-1){
+				resposta +=listaUsuariosOrdenadoDistancia[i].visualizarPerfil();
+			}
+			else{
+				resposta +=listaUsuariosOrdenadoDistancia[i].visualizarPerfil() + "; ";
+			}
+		}
+		return resposta;
 	}
 	
 	/**

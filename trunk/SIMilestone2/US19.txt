@@ -22,9 +22,11 @@ idItem1=cadastrarItem idSessao=${sessaoMark} nome="The Social Network" descricao
 idItem2=cadastrarItem idSessao=${sessaoSteve} nome="Guia do mochileiro das galáxias" descricao="Série de ficção científica criada por Douglas Adams" categoria="Livro, Aventura, Sci-fi"
 idItem3=cadastrarItem idSessao=${sessaoBill} nome="Final Fantasy XIII" descricao="Décimo terceiro jogo da série produzida pela Square Enix" categoria="Jogo, RPG, Drama, Sci-fi"
 
-expect "The Social Network" pesquisarItem idSessao=${sessaoMark} chave="Biografia" atributo="categoria" tipoOrdenacao="crescente" criterioOrdenacao="dataCriacao"
-expect "The Social Network; Final Fantasy XIII" pesquisarItem idSessao=${sessaoMark} chave="Drama" atributo="categoria" tipoOrdenacao="crescente" criterioOrdenacao="dataCriacao"
+expect "Final Fantasy XIII" pesquisarItem idSessao=${sessaoMark} chave="RPG" atributo="categoria" tipoOrdenacao="crescente" criterioOrdenacao="dataCriacao"
 expect "Guia do mochileiro das galáxias; Final Fantasy XIII" pesquisarItem idSessao=${sessaoMark} chave="Sci-fi" atributo="categoria" tipoOrdenacao="crescente" criterioOrdenacao="dataCriacao"
+expect "The Social Network" pesquisarItem idSessao=${sessaoSteve} chave="Drama" atributo="categoria" tipoOrdenacao="crescente" criterioOrdenacao="dataCriacao"
 
 encerrarSistema
 quit
+
+
