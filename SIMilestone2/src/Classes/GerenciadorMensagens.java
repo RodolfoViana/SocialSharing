@@ -257,12 +257,17 @@ public class GerenciadorMensagens {
 			throws Exception {
 		String reString = "";
 		Iterator<Mensagem> it = getListaDeMensagens().iterator();
-		Mensagem msg;
-		
-				
+		Mensagem msg;		
 		
 		if (idTopico == null || idTopico.isEmpty()) {
 			throw new Exception("Identificador do tópico é inválido");
+		}
+		
+		if (resp2) {
+			throw new Exception("Tópico inexistente");
+		}
+		if (resp) {
+			throw new Exception("O usuário não tem permissão para ler as mensagens deste tópico");
 		}
 		
 		while (it.hasNext()){
@@ -271,15 +276,51 @@ public class GerenciadorMensagens {
 				reString += msg.getCorpoDaMensagem();
 			}
 		}
-		if (resp2) {
-			throw new Exception("Tópico inexistente");
-		}
-		if (resp) {
-			throw new Exception(
-					"O usuário não tem permissão para ler as mensagens deste tópico");
-		}
+		
 
 		return reString;
 	}
+	
+	public String lerMensagens(String idTopico, boolean permissaoPraLer, boolean topicoExiste) throws Exception{
+//		boolean topicoInexsite = msgExiste(idTopico);
+		String reString = "";
+		Iterator<Mensagem> it = getListaDeMensagens().iterator();
+		Mensagem msg;
+		
+		if (idTopico == null || idTopico.isEmpty()) {
+			throw new Exception("Identificador do tópico é inválido");
+		}
+		
+		if (topicoExiste) {
+			throw new Exception("Tópico inexistente");
+		}
+		
+		if (permissaoPraLer) {
+			throw new Exception("O usuário não tem permissão para ler as mensagens deste tópico");
+		}
+		
+		while (it.hasNext()){
+			msg = it.next();
+			if (msg.getIdMensagem().equals(idTopico)) {
+				reString += msg.getCorpoDaMensagem();
+			}
+		}
+		
+		return reString;
+	}
 
+//	private boolean msgExiste(String idTopico){
+//		Iterator<Mensagem> it = getListaDeMensagens().iterator();
+//		Mensagem mensagem; 
+//		
+//		while (it.hasNext()){
+//			mensagem = it.next();
+//			
+//			if (mensagem.getIdMensagem().equals(idTopico)){
+//				return true;
+//			}	
+//		}
+//		return false;
+//	}
+	
 }
