@@ -53,12 +53,12 @@ public class Fachada {
 		this.getGerenciadorUsuarios()
 				.buscarUsuarioPorID(idSessao)
 				.getGerenciadorAmizades()
-				.adicionarAmigo2(
+				.adicionarAmigo(
 						getGerenciadorUsuarios().buscarUsuarioPorLogin(login));
 		this.getGerenciadorUsuarios()
 				.buscarUsuarioPorLogin(login)
 				.getGerenciadorAmizades()
-				.adicionarAmigo(
+				.adicionarNovoAmigo(
 						getGerenciadorUsuarios().buscarUsuarioPorID(idSessao));
 		this.getGerenciadorUsuarios().adicionarAtividadesUsuario(idSessao, login, "amizade");
 
@@ -191,7 +191,7 @@ public class Fachada {
 		
 		boolean ehDonoDoItem = true;
 		try {
-			usuario = this.getGerenciadorUsuarios().buscarUsuarioBeneficiado(idRequisicaoEmprestimo);
+			usuario = this.getGerenciadorUsuarios().buscarUsuarioIdEmprestimo(idRequisicaoEmprestimo);
 			usuario2 = this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
 
 			usuariosSaoAmigos = usuario.getGerenciadorAmizades().ehMeuAmigo(usuario2);
@@ -213,7 +213,7 @@ public class Fachada {
 	
 	public void devolverItem(String idSessao, String idEmprestimo) throws Exception{
 		Usuario usuario = this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
-		Usuario usuario2 = this.getGerenciadorUsuarios().buscarUsuarioEmprestador2(idEmprestimo);
+		Usuario usuario2 = this.getGerenciadorUsuarios().buscarUsuarioBeneficiador(idEmprestimo);
 		Item item = this.getGerenciadorUsuarios().buscarItemIdEmprestimo(idEmprestimo);
 		
 		getGerenciadorUsuarios().devolverItem(usuario, usuario2, item);	
@@ -221,7 +221,7 @@ public class Fachada {
 	
 	public void confirmarTerminoEmprestimo(String idSessao, String idEmprestimo) throws Exception{
 		Usuario usuario2 = this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
-		this.getGerenciadorUsuarios().buscarUsuarioEmprestador2(idEmprestimo);
+		this.getGerenciadorUsuarios().buscarUsuarioBeneficiador(idEmprestimo);
 		Item item = this.getGerenciadorUsuarios().buscarItemIdEmprestimo(idEmprestimo);
 		
 		getGerenciadorUsuarios().confirmarTerminoEmprestimo(usuario2, item);

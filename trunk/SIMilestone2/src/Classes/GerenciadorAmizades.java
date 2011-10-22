@@ -49,18 +49,19 @@ public class GerenciadorAmizades {
 	 *          Caso o usuario seja igual a null
 	 */
 	
-	public void adicionarAmigo(Usuario usr)throws Exception{
+	public void adicionarNovoAmigo(Usuario usr)throws Exception{
 		if (usr==null){
 			throw new Exception("Usuario nao pode ser igual a null");
 		}
 		else if(listaDeAmigos.contains(usr)){
 			throw new Exception("Os usuários já são amigos");
 		}
+		
 		listaDeAmigos.add(usr);
 		listaDeProvaveisAmigos.remove(usr);
 	}
 	
-	public void adicionarAmigo2(Usuario usr)throws Exception{
+	public void adicionarAmigo(Usuario usr)throws Exception{
 		if (usr==null){
 			throw new Exception("Usuario nao pode ser igual a null");
 		}

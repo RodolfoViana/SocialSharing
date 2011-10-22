@@ -20,24 +20,25 @@ public class GerenciadorUsuarios {
 	/**
 	 * Inicia os Atributos da Classe
 	 */
-	
 	public GerenciadorUsuarios() {
 		listaDeUsuarios = new ArrayList<Usuario>();
 		listaDeUsuariosLogados = new ArrayList<Usuario>();
 		listaPedidos= new ArrayList<PedidoItem>();
 	}
 	
+	/**
+	 * Lista de Pedidos
+	 * @return Recupera a lita de pedidos
+	 */
 	public List<PedidoItem> getPedidos(){
 		return listaPedidos;
 	}
-	
 	
 	/**
 	 * Recupera a Lista de Usuarios cadastrados no Sistema
 	 * @return
 	 *       Lista de Usuarios cadastrados no Sistema
 	 */
-	
 	public List<Usuario> getListaUsuarios(){
 		return listaDeUsuarios;
 	}
@@ -47,7 +48,6 @@ public class GerenciadorUsuarios {
 	 * @return
 	 *        Lista de Usuarios logados no Sistema
 	 */
-	
 	public List<Usuario> getListaUsuariosLogados(){
 		return listaDeUsuariosLogados;
 	}
@@ -64,7 +64,6 @@ public class GerenciadorUsuarios {
 	 *         Caso login esteja vazio ou seja inexistente
 	 *         Caso Atributo esteja vazio ou seja inexistente
 	 */
-	
 	 public String getAtributoUsuario(String login, String atributo)throws Exception{
          if (!stringValida(login)){
                  throw new Exception("Login inválido");
@@ -72,7 +71,7 @@ public class GerenciadorUsuarios {
          else if(!stringValida(atributo)){
                  throw new Exception("Atributo inválido");
          }
-         else if (!logiEhUsado(login)){
+         else if (!loginEhUsado(login)){
              throw new Exception("Usuário inexistente");
          }
          Usuario usr = buscarUsuarioPorLogin(login);
@@ -106,10 +105,9 @@ public class GerenciadorUsuarios {
 	  *        Caso login ou nome ou endereco estejam vazios.
 	  *        Caso login ja seja usado.
 	  */
-	 
 	public void criarUsuario(String login, String nome, String endereco)throws Exception{
         Usuario usr = new Usuario(nome, login, endereco);
-        if (logiEhUsado(login)){
+        if (loginEhUsado(login)){
                 throw new Exception("Já existe um usuário com este login");
         }
         
@@ -127,8 +125,7 @@ public class GerenciadorUsuarios {
 	 *      Usuario 
 	 * @throws Exception
 	 */
-	public String localizarUsuario(String idSessao, String chave,
-			String atributo) throws Exception {
+	public String localizarUsuario(String idSessao, String chave, String atributo) throws Exception {
 
 		if (!stringValida(idSessao)) {
 			throw new Exception("Sessão inválida");
@@ -149,7 +146,13 @@ public class GerenciadorUsuarios {
 		}
 	}
 	
-	public String localizarUsuario(String id) throws Exception{
+	/**
+	 * Localiza usuario recebendo o id como parametro
+	 * @param id ID do usuario
+	 * @return String Usuario
+	 * @throws Exception Caso a sessao seja invalida ou inexistente
+	 */
+	public String localizarUsuario (String id) throws Exception{
 		if (!stringValida(id)) {
 			throw new Exception("Sessão inválida");
 		} else if (buscarUsuarioPorID(id) == null) {
@@ -157,7 +160,7 @@ public class GerenciadorUsuarios {
 		}
 		
 		List<Usuario> listUsuarios = new ArrayList<Usuario>();
-		int cont = 0;
+
 		for (int i = 0; i<=listaDeUsuarios.size() - 1; i++) {
 			Usuario usr = listaDeUsuarios.get(i);
 			if(!listUsuarios.contains(usr) && !usr.equals(buscarUsuarioPorID(id))){
@@ -183,7 +186,6 @@ public class GerenciadorUsuarios {
 			listaDistancia.add(distancia);
 		}
 		
-		
 		Usuario[] listaUsuariosOrdenadoDistancia = new Usuario[listUsuarios.size()];
 		Usuario[] x = new Usuario[listaDistancia.size()];
 		int cont2 = 0;
@@ -208,12 +210,12 @@ public class GerenciadorUsuarios {
 	}
 	
 	/**
-	 * 
-	 * @param destinatario
-	 * @return
-	 * @throws Exception
+	 * Busca usuario por destinatario
+	 * @param destinatario Login do destinatario
+	 * @return Usuario destinatario
+	 * @throws Exception Caso seja um usuario invalido
 	 */
-	public Usuario buscarUsuarioPorDestinatario(String destinatario) throws Exception{
+	public Usuario buscarUsuarioDestinatario(String destinatario) throws Exception{
 		if (!stringValida(destinatario)){
 			throw new Exception ("Destinatário inválido");
 		}
@@ -223,7 +225,6 @@ public class GerenciadorUsuarios {
 				return usr;
 			}
 		}
-		
 		throw new Exception("Destinatário inexistente");
 	}
 	
@@ -239,9 +240,10 @@ public class GerenciadorUsuarios {
 	public Usuario buscarUsuarioPorLogin(String login) throws Exception {
 		if (!stringValida(login)) {
 			throw new Exception("Login inválido");
-		}else if (!logiEhUsado(login)) {
+		}else if (!loginEhUsado(login)) {
 			throw new Exception("Usuário inexistente");
 		}
+		
 		for (Usuario usr : listaDeUsuarios) {
 			if (usr.getLogin().equals(login)) {
 				return usr;
@@ -269,7 +271,7 @@ public class GerenciadorUsuarios {
 	 * @throws Exception
 	 *      Caso o loing seja invalido
 	 */
-	public boolean logiEhUsado(String login) throws Exception {
+	public boolean loginEhUsado(String login) throws Exception {
 		if (!stringValida(login)) {
 			throw new Exception("Login inválido");
 		}
@@ -404,7 +406,7 @@ public class GerenciadorUsuarios {
 	 * @return
 	 *        Quantidade de Usuarios logados no sistema
 	 */
-	public int quantDeItensDosUsuariosLogados(){
+	public int itensDosUsuariosLogados(){
 		int cont = 0;
 		for (Usuario usr: listaDeUsuariosLogados){
 			cont+= (usr.getGerenciadorItens().getQuantidadeMeusItens());
@@ -478,13 +480,25 @@ public class GerenciadorUsuarios {
 		throw new Exception("Item inexistente");
 	}
 	
-	
+	/**
+	 * Recupera os emprestimos
+	 * @param idSessao Sessao do usuario
+	 * @param tipo Informa o tipo de emprestimo
+	 * @return Usuario 
+	 * @throws Exception Caso a sessaos seja invalida ou o tipo
+	 */
 	public String getEmprestimos(String idSessao, String tipo) throws Exception {	
 		
 		return buscarUsuarioPorID(idSessao).getGerenciadorItens().getEmprestimo(buscarUsuarioEmprestador(idSessao),
 						buscarUsuarioPorID(idSessao), tipo);
 	}
 	
+	/**
+	 * Busca o usuario apartir do id de sessao
+	 * @param idSessao ID de sessao do usuario
+	 * @return Usuario 
+	 * @throws Exception Caso a ID de sessao seja invalida
+	 */
 	public Usuario buscarUsuarioEmprestador(String idSessao) throws Exception{
 		
 		for (Usuario usr: listaDeUsuarios){
@@ -499,7 +513,8 @@ public class GerenciadorUsuarios {
 		}return null;
 	}
 	
-	public Usuario buscarUsuarioEmprestador2(String idEmprestimo) throws Exception{
+	
+	public Usuario buscarUsuarioBeneficiador(String idEmprestimo) throws Exception{
 		Usuario usuario = null;
 		
 		if (!stringValida(idEmprestimo)){
@@ -526,7 +541,7 @@ public class GerenciadorUsuarios {
 		return usuario;
 	}
 	
-	public Usuario buscarUsuarioEmprestador3(String idRequisicaoEmprestimo) throws Exception{
+	public Usuario buscarUsuarioPorRequisicaoEmprestimo(String idRequisicaoEmprestimo) throws Exception{
 		
 		if (!stringValida(idRequisicaoEmprestimo)){
 			throw new Exception("Identificador da requisição de empréstimo é inválido");
@@ -555,7 +570,7 @@ public class GerenciadorUsuarios {
 	}
 	
 	public Item buscarItemEmprestador(String idEmprestimo) throws Exception{
-		Usuario usr = buscarUsuarioEmprestador2(idEmprestimo);
+		Usuario usr = buscarUsuarioBeneficiador(idEmprestimo);
 		
 		if (usr != null){
 			usr.getGerenciadorItens().confirmarTerminoEmprestimo(buscarItemEmprestador(idEmprestimo));
@@ -590,7 +605,7 @@ public class GerenciadorUsuarios {
 		
 	}
 	
-	public Usuario buscarUsuarioBeneficiado(String idRequisicaoEmprestimo){
+	public Usuario buscarUsuarioIdEmprestimo(String idRequisicaoEmprestimo){
 		for (Usuario usr : listaDeUsuarios) {
 			for (Item it : usr.getGerenciadorItens().getListaMeusItens()) {
 				if (it.getEmprestimo().getIDRequisicao()
@@ -965,12 +980,12 @@ public class GerenciadorUsuarios {
 			throw new Exception("Identificador do empréstimo é inválido");
 		}
 		
-		if ( buscarUsuarioEmprestador2(idEmprestimo) == null){
+		if ( buscarUsuarioBeneficiador(idEmprestimo) == null){
 			throw new Exception("Empréstimo inexistente");
 		}
 		
 		try {
-			boolean testa = (! buscarUsuarioEmprestador2(idEmprestimo).equals( buscarUsuarioPorID(idSessao)) && ! buscarUsuarioBeneficiado(idEmprestimo).equals(buscarUsuarioPorID(idSessao)));	
+			boolean testa = (! buscarUsuarioBeneficiador(idEmprestimo).equals( buscarUsuarioPorID(idSessao)) && ! buscarUsuarioIdEmprestimo(idEmprestimo).equals(buscarUsuarioPorID(idSessao)));	
 		}catch (Exception e){
 			throw new Exception("O usuário não tem permissão para requisitar a devolução deste item");
 		}	
@@ -986,11 +1001,11 @@ public class GerenciadorUsuarios {
 		 buscarUsuarioPorID(idSessao).getGerenciadorItens().buscarItemIdEmprestimo(idEmprestimo).getEmprestimo().requisitarDevolucao();
 		
 		try {
-			String assunto = "Empréstimo do item " +  buscarUsuarioEmprestador2(idEmprestimo).getGerenciadorItens().buscarItemIdEmprestimo(idEmprestimo).getNome() + " a " +  buscarUsuarioEmprestador2(idEmprestimo).getGerenciadorItens().buscarItemIdEmprestimo(idEmprestimo).getEmprestimo().getBeneficiado().getNome();
-			String mensagem =  buscarDonoItem( buscarUsuarioEmprestador2(idEmprestimo).getGerenciadorItens().buscarItemIdEmprestimo(idEmprestimo).getID()).getNome() + " solicitou a devolução do item " +  buscarUsuarioEmprestador2(idEmprestimo).getGerenciadorItens().buscarItemIdEmprestimo(idEmprestimo).getNome();
-			String destinatario =  buscarUsuarioEmprestador2(idEmprestimo).getGerenciadorItens().buscarItemIdEmprestimo(idEmprestimo).getEmprestimo().getBeneficiado().getLogin();
+			String assunto = "Empréstimo do item " +  buscarUsuarioBeneficiador(idEmprestimo).getGerenciadorItens().buscarItemIdEmprestimo(idEmprestimo).getNome() + " a " +  buscarUsuarioBeneficiador(idEmprestimo).getGerenciadorItens().buscarItemIdEmprestimo(idEmprestimo).getEmprestimo().getBeneficiado().getNome();
+			String mensagem =  buscarDonoItem( buscarUsuarioBeneficiador(idEmprestimo).getGerenciadorItens().buscarItemIdEmprestimo(idEmprestimo).getID()).getNome() + " solicitou a devolução do item " +  buscarUsuarioBeneficiador(idEmprestimo).getGerenciadorItens().buscarItemIdEmprestimo(idEmprestimo).getNome();
+			String destinatario =  buscarUsuarioBeneficiador(idEmprestimo).getGerenciadorItens().buscarItemIdEmprestimo(idEmprestimo).getEmprestimo().getBeneficiado().getLogin();
 			
-			enviarMensagem(idSessao, destinatario, assunto, mensagem,  buscarUsuarioEmprestador2(idEmprestimo).getGerenciadorItens().buscarItemIdEmprestimo(idEmprestimo).getEmprestimo().getIDRequisicao());
+			enviarMensagem(idSessao, destinatario, assunto, mensagem,  buscarUsuarioBeneficiador(idEmprestimo).getGerenciadorItens().buscarItemIdEmprestimo(idEmprestimo).getEmprestimo().getIDRequisicao());
 		} catch (Exception e){
 			System.out.println(e.getLocalizedMessage());
 		}
@@ -1009,7 +1024,7 @@ public class GerenciadorUsuarios {
 			String assunto, String mensagem, String idRequisicaoEmprestimo)
 			throws Exception {
 		Usuario usuario = buscarUsuarioPorID(idSessao);
-		Usuario usuario2 = buscarUsuarioPorDestinatario(destinatario);
+		Usuario usuario2 = buscarUsuarioDestinatario(destinatario);
 
 		if (!stringValida(mensagem)) {
 			throw new Exception("Mensagem inválida");
@@ -1019,11 +1034,11 @@ public class GerenciadorUsuarios {
 			throw new Exception("Assunto inválido");
 		}
 
-		buscarUsuarioEmprestador3(idRequisicaoEmprestimo);
+		buscarUsuarioPorRequisicaoEmprestimo(idRequisicaoEmprestimo);
 
-		if (!buscarUsuarioEmprestador3(idRequisicaoEmprestimo).equals(
+		if (!buscarUsuarioPorRequisicaoEmprestimo(idRequisicaoEmprestimo).equals(
 				buscarUsuarioPorID(idSessao))
-				&& !this.buscarUsuarioBeneficiado(idRequisicaoEmprestimo)
+				&& !this.buscarUsuarioIdEmprestimo(idRequisicaoEmprestimo)
 						.equals(buscarUsuarioPorID(idSessao))) {
 			throw new Exception("O usuário não participa deste empréstimo");
 		}
@@ -1217,22 +1232,6 @@ public class GerenciadorUsuarios {
 		
 		
 			
-	}
-	
-	private String teste(String str){
-		String temp = "";
-		
-		for(int i = str.split("; ").length-1;i>=0;i--){
-			if(i!=0){
-				temp += str.split("; ")[i] + "; ";
-				
-			}
-			else{
-				temp += str.split("; ")[i];
-				
-			}
-		}
-		return temp;
 	}
 	
 	public String historicoAtividadesConjunto(String idSessao) throws Exception{

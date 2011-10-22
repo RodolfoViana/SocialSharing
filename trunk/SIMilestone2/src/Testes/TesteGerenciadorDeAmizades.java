@@ -23,24 +23,24 @@ public class TesteGerenciadorDeAmizades {
 	}
 	
 	@Test public void testaAdicionarAmigoException() throws Exception{
-		gerenciadorAmizades.adicionarAmigo(usuario);
+		gerenciadorAmizades.adicionarNovoAmigo(usuario);
 		
 		try {
-			gerenciadorAmizades.adicionarAmigo(usuario);
+			gerenciadorAmizades.adicionarNovoAmigo(usuario);
 			Assert.fail();
 		} catch (Exception e){
 			Assert.assertEquals("Erro ao adicionar amigo novamente", "Os usuários já são amigos", e.getMessage());
 		}
 		
 		try {
-			gerenciadorAmizades.adicionarAmigo(null);
+			gerenciadorAmizades.adicionarNovoAmigo(null);
 			Assert.fail();
 		} catch (Exception e){
 			Assert.assertEquals("Erro ao adicionar amigo null", "Usuario nao pode ser igual a null", e.getMessage());
 		}
 		
 		try {
-			gerenciadorAmizades.adicionarAmigo2(null);
+			gerenciadorAmizades.adicionarAmigo(null);
 			Assert.fail();
 		} catch (Exception e){
 			Assert.assertEquals("Erro ao adicionar null", "Usuario nao pode ser igual a null", e.getMessage());
@@ -67,24 +67,24 @@ public class TesteGerenciadorDeAmizades {
 	}
 	
 	@Test public void testaAdicionarAmigo2Exception() throws Exception{
-		gerenciadorAmizades.adicionarAmigo(usuario);
+		gerenciadorAmizades.adicionarNovoAmigo(usuario);
 		
 		try {
-			gerenciadorAmizades.adicionarAmigo2(usuario);
+			gerenciadorAmizades.adicionarAmigo(usuario);
 			Assert.fail();
 		} catch (Exception e){
 			Assert.assertEquals("Erro ao adicionar amigo novamente", "Os usuários já são amigos", e.getMessage());
 		}
 		
 		try {
-			gerenciadorAmizades.adicionarAmigo2(null);
+			gerenciadorAmizades.adicionarAmigo(null);
 			Assert.fail();
 		} catch (Exception e){
 			Assert.assertEquals("Erro ao adicionar amigo null", "Usuario nao pode ser igual a null", e.getMessage());
 		}
 		
 		try {
-			gerenciadorAmizades.adicionarAmigo2(null);
+			gerenciadorAmizades.adicionarAmigo(null);
 			Assert.fail();
 		} catch (Exception e){
 			Assert.assertEquals("Erro ao adicionar null", "Usuario nao pode ser igual a null", e.getMessage());
@@ -110,7 +110,7 @@ public class TesteGerenciadorDeAmizades {
 	
 	@Test public void testaRemoverAmigo() throws Exception{
 		Assert.assertFalse("Erro no eh meu amigo", gerenciadorAmizades.ehMeuAmigo(usuario));
-		gerenciadorAmizades.adicionarAmigo(usuario);
+		gerenciadorAmizades.adicionarNovoAmigo(usuario);
 		Assert.assertTrue("Erro no eh meu amigo", gerenciadorAmizades.ehMeuAmigo(usuario));
 		
 		gerenciadorAmizades.removerAmigo(usuario);
@@ -165,7 +165,7 @@ public class TesteGerenciadorDeAmizades {
 	}
 	
 	@Test public void testaBuscaPerfil() throws Exception{
-		gerenciadorAmizades.adicionarAmigo(usuario);
+		gerenciadorAmizades.adicionarNovoAmigo(usuario);
 		
 		Assert.assertEquals(usuario, gerenciadorAmizades.buscaPerfil(usuario.getLogin()));
 		Assert.assertEquals(null, gerenciadorAmizades.buscaPerfil("abc"));
@@ -185,7 +185,7 @@ public class TesteGerenciadorDeAmizades {
 	
 	@Test public void testaDesfazerAmizade() throws Exception{
 		Assert.assertFalse("Erro no eh meu amigo", gerenciadorAmizades.ehMeuAmigo(usuario));
-		gerenciadorAmizades.adicionarAmigo(usuario);
+		gerenciadorAmizades.adicionarNovoAmigo(usuario);
 		Assert.assertTrue("Erro no eh meu amigo", gerenciadorAmizades.ehMeuAmigo(usuario));
 		
 		gerenciadorAmizades.desfazerAmizade(usuario);
