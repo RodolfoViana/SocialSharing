@@ -13,6 +13,7 @@ package Classes;
 public class Fachada {
 
 	GerenciadorUsuarios gerenciadorUsu;
+	
 	/**
 	 * Inicializa gerenciador de usuarios
 	 */
@@ -121,9 +122,8 @@ public class Fachada {
 
 	public String cadastrarItem(String idSessao, String nome, String descricao, String categoria) throws Exception {
 		Usuario usuario = getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
-		Item it = new Item(nome, descricao, categoria);
-		String resposta = getGerenciadorUsuarios().cadastrarItem(usuario, it);
-		getGerenciadorUsuarios().adicionarAtividadesUsuario(idSessao, it, "item");
+		String resposta = getGerenciadorUsuarios().cadastrarItem(usuario, nome, descricao, categoria);
+		getGerenciadorUsuarios().adicionarAtividadesUsuario(idSessao, new Item(nome, descricao, categoria), "item");
 		return resposta;
 	}
 
@@ -147,7 +147,7 @@ public class Fachada {
 	}
 
 	public String getAmigos(String idSessao, String login) throws Exception {		
-		Usuario usuario = getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
+		getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
 		Usuario usuario2 = getGerenciadorUsuarios().buscarUsuarioPorLogin(login);
 		
 		return getGerenciadorUsuarios().getAmigos(usuario2);
