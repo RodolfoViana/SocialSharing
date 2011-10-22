@@ -160,7 +160,6 @@ public class GerenciadorUsuarios {
 		}
 		
 		List<Usuario> listUsuarios = new ArrayList<Usuario>();
-
 		for (int i = 0; i<=listaDeUsuarios.size() - 1; i++) {
 			Usuario usr = listaDeUsuarios.get(i);
 			if(!listUsuarios.contains(usr) && !usr.equals(buscarUsuarioPorID(id))){
