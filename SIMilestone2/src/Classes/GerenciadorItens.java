@@ -13,18 +13,15 @@ public class GerenciadorItens {
 	private List<Item> listaMeusItens;
 	private List<Item> itensPraEmprestar;
 	private List<Item> itensPraDevolver;
-//	private List<Emprestimo> listaDeEmprestimosCompletados;
 	private List<Item> listaDeEmprestimos;
 	
 	/**
 	 * Inicia os Atributos da Classe
 	 */
-	
 	public GerenciadorItens(){
 		listaMeusItens = new ArrayList<Item>();
 		itensPraDevolver = new ArrayList<Item>();
 		itensPraEmprestar = new ArrayList<Item>();
-//		listaDeEmprestimosCompletados = new ArrayList<Emprestimo>();
 		listaDeEmprestimos = new ArrayList<Item>();
 	}
 	
@@ -69,12 +66,7 @@ public class GerenciadorItens {
 	 * Recupera a quantidade de Emprestimos Completados
 	 * @return
 	 *       Quantidade de Emprestimos Completados
-	 */
-	
-//	public int quantEmprestimosCompletados(){
-//		return this.listaDeEmprestimosCompletados.size();
-//	}
-	
+	 */	
 	public int quantEmprestimosCompletados(){
 		return this.listaDeEmprestimos.size();
 	}
@@ -84,12 +76,9 @@ public class GerenciadorItens {
 	 * @return
 	 *          Itens que precisam ser devolvidos
 	 */
-	
 	public List<Item> getItensPraDevolver() {
 		return itensPraDevolver;
 	}
-
-
 	
 	/**
 	 * Recupera um determinado Atributo do Item
@@ -120,16 +109,20 @@ public class GerenciadorItens {
         }
 	}
 	
+	/**
+	 * Recupera os itens em forma de string
+	 * @return String com todos os itens
+	 */
 	public String stringDeItens(){
+		String resp = "";
+		
 		if (getListaMeusItens().isEmpty()){
 			 return "O usuário não possui itens cadastrados";
 		}
-		String resp = "";
 		
 		for (Item item : getListaMeusItens()){
 			resp += item.getNome() + "; ";
 		}
-		
 		
 		return formatarRequisicoes(resp);
 	}
@@ -160,7 +153,6 @@ public class GerenciadorItens {
 	 * @return
 	 *         Quantidade de Itens do Usuario
 	 */
-	
 	public int getQuantidadeMeusItens(){
 		return listaMeusItens.size();
 	}
@@ -304,7 +296,6 @@ public class GerenciadorItens {
 	 * @throws Exception
 	 *          Caso algum dos Parametros seja invalido
 	 */
-	
 	public String requisitarEmprestimos(Usuario beneficiado,String idItem, int dias) throws Exception{
 		if (buscarItemPorID(idItem).getEmprestimo()!=null && buscarItemPorID(idItem).getEmprestimo().getBeneficiado().equals(beneficiado) && buscarItemPorID(idItem).getEmprestimo().emprestimoFoiRequisitado()){
 			throw new Exception("Requisição já solicitada");
@@ -328,7 +319,6 @@ public class GerenciadorItens {
 	 * @throws Exception
 	 *           Caso algums dos Parametros seja Invalido
 	 */
-	
 	public String aprovarRequisicaoEmprestimo(boolean ehDonoDoItem, boolean usuarioSaoAmigos, boolean requisicaoExiste, String idRequisicaoEmprestimo) throws Exception{
 		if (!stringValida(idRequisicaoEmprestimo)){
 			throw new Exception("Identificador da requisição de empréstimo é inválido");
@@ -362,6 +352,11 @@ public class GerenciadorItens {
 		return true;
 	}
 	
+	/**
+	 * Busca Item recebendo o id como parametro
+	 * @param id Id do item que deve ser pesquisado
+	 * @return Item caso o item exista, ou null caso contrario
+	 */
 	public Item buscarItemPorID(String id) {
 		for (Item it : getListaMeusItens()) {
 			if (it.getID().equals(id)) {
@@ -378,7 +373,6 @@ public class GerenciadorItens {
 	 * @return
 	 *          Item emprestado
 	 */
-	
 	public Item buscarItemIdEmprestimo(String idEmpretimo){
 		
 		for (Item it : getListaMeusItens()){
@@ -391,16 +385,13 @@ public class GerenciadorItens {
 		}
 		
 		return null;
-		
 	}
-	
 	
 	/**
 	 * Confirma o Termino do Emprestimo
 	 * @param item
 	 *            Item cujo emprestimo foi terminado
 	 */
-	
 	public void confirmarTerminoEmprestimo(Item item){
 		this.getItensPraEmprestar().add(item);	
 	}
@@ -468,16 +459,10 @@ public class GerenciadorItens {
 	
 	/**
 	 * Adciona um Emprestimo Completado
-	 * @param emp
-	 *         Emprestimo que foi completado
+	 * @param item Item que teve o emprestimo completado
 	 */
-//	public void addEmprestimoCompletado(Emprestimo emp){
-//		this.listaDeEmprestimosCompletados.add(emp);
-//	}
-	
 	public void addEmprestimoCompletado(Item item){
 		this.listaDeEmprestimos.add(item);
 	}
-	
 
 }

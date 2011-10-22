@@ -364,15 +364,6 @@ public class GerenciadorUsuarios {
 			}
 		}
 		return resposta;
-//		return listaUsuarios;
-	}
-	
-	private void imprimirArray(Usuario[] x){
-		
-		for(Usuario z : x){
-			System.out.println(z.getNome());
-		}
-		
 	}
 	
 	private int recuperaIndiceDoMenorDaLista(List<Double> lista){
