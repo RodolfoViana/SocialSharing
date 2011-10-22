@@ -1,6 +1,7 @@
 package Classes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class GerenciadorItens {
 	 *        Caso o Item seja nulo
 	 */
 	public String adicionarItem(Item it)throws Exception{
-		if (it==null){
+		if (it == null){
 			throw new Exception("Item nao pode ser igual a null");
 		}
 		listaMeusItens.add(it);
@@ -130,8 +131,8 @@ public class GerenciadorItens {
 	//TODO depois arrumar isso
 	private String formatarRequisicoes(String requisicoes){
 		String retorno = "";
-		for (int i =0;i< requisicoes.split("; ").length;i++){
-			if (i==requisicoes.split("; ").length-1){
+		for (int i =0; i< requisicoes.split("; ").length; i++){
+			if (i == requisicoes.split("; ").length-1){
 				retorno +=requisicoes.split("; ")[i];
 				break;
 			}
@@ -143,9 +144,8 @@ public class GerenciadorItens {
 				retorno += requisicoes.split("; ")[i] + "; ";
 
 			}
-			
-			
-		}return retorno;
+		}
+		return retorno;
 	}
 	
 	/**
@@ -172,6 +172,7 @@ public class GerenciadorItens {
 	 * 
 	 */
 	public String getEmprestimo(Usuario usr1, Usuario usr, String tipo)throws Exception{
+		
 		if (!stringValida(tipo)){
 			throw new Exception("Tipo inválido");
 		}
@@ -320,22 +321,36 @@ public class GerenciadorItens {
 	 *           Caso algums dos Parametros seja Invalido
 	 */
 	public String aprovarRequisicaoEmprestimo(boolean ehDonoDoItem, boolean usuarioSaoAmigos, boolean requisicaoExiste, String idRequisicaoEmprestimo) throws Exception{
+		Iterator<Item> it = getListaMeusItens().iterator();
+		Item item;
+		
 		if (!stringValida(idRequisicaoEmprestimo)){
 			throw new Exception("Identificador da requisição de empréstimo é inválido");
 		}
 		else if (!requisicaoExiste){
 			throw new Exception("Requisição de empréstimo inexistente");
 		}
-
-		for (Item it: listaMeusItens){
-			if (it.getEmprestimo()!=null && it.getEmprestimo().getIDRequisicao().equals(idRequisicaoEmprestimo) && !it.getEmprestimo().emprestimoFoiAprovado()){
-				this.getItensPraEmprestar().remove(it);
-				return it.getEmprestimo().aprovarEmprestimo();
+		
+		while (it.hasNext()){
+			item = it.next();
+			if (item.getEmprestimo() != null && item.getEmprestimo().getIDRequisicao().equals(idRequisicaoEmprestimo) && !item.getEmprestimo().emprestimoFoiAprovado()){
+				this.getItensPraEmprestar().remove(item);
+				return item.getEmprestimo().aprovarEmprestimo();
 			}
-			else if(it.getEmprestimo()!=null && it.getEmprestimo().getIDRequisicao().equals(idRequisicaoEmprestimo) && it.getEmprestimo().emprestimoFoiAprovado()){
+			else if (item.getEmprestimo()!=null && item.getEmprestimo().getIDRequisicao().equals(idRequisicaoEmprestimo) && item.getEmprestimo().emprestimoFoiAprovado()){
 				throw new Exception("Empréstimo já aprovado");
-			}	
+			}
 		}
+		
+//		for (Item it: listaMeusItens){
+//			if (it.getEmprestimo()!=null && it.getEmprestimo().getIDRequisicao().equals(idRequisicaoEmprestimo) && !it.getEmprestimo().emprestimoFoiAprovado()){
+//				this.getItensPraEmprestar().remove(it);
+//				return it.getEmprestimo().aprovarEmprestimo();
+//			}
+//			else if(it.getEmprestimo()!=null && it.getEmprestimo().getIDRequisicao().equals(idRequisicaoEmprestimo) && it.getEmprestimo().emprestimoFoiAprovado()){
+//				throw new Exception("Empréstimo já aprovado");
+//			}	
+//		}
 		
 		if (!requisicaoExiste){
 			throw new Exception("Requisição de empréstimo inexistente");
@@ -358,11 +373,23 @@ public class GerenciadorItens {
 	 * @return Item caso o item exista, ou null caso contrario
 	 */
 	public Item buscarItemPorID(String id) {
-		for (Item it : getListaMeusItens()) {
-			if (it.getID().equals(id)) {
-				return it;
+		Iterator<Item> it = getListaMeusItens().iterator();
+		Item item;
+		
+		while (it.hasNext()){
+			item = it.next();
+			if (item.getID().equals(id)){
+				return item;
 			}
+			
 		}
+		
+//		for (Item it : getListaMeusItens()) {
+//			if (it.getID().equals(id)) {
+//				return it;
+//			}
+//		}
+		
 		return null;
 	}
 	
@@ -374,15 +401,27 @@ public class GerenciadorItens {
 	 *          Item emprestado
 	 */
 	public Item buscarItemIdEmprestimo(String idEmpretimo){
+		Iterator<Item> it = getListaMeusItens().iterator();
+		Item item;
 		
-		for (Item it : getListaMeusItens()){
-			if (it.getEmprestimo() != null){
-				if (it.getEmprestimo().getIDEmprestimo().equals(idEmpretimo)){
-					return it;
+		while (it.hasNext()){
+			item = it.next();
+			if (item.getEmprestimo() != null){
+				if (item.getEmprestimo().getIDEmprestimo().equals(idEmpretimo)){
+					return item;
 				}
 			}
 			
 		}
+		
+//		for (Item it : getListaMeusItens()){
+//			if (it.getEmprestimo() != null){
+//				if (it.getEmprestimo().getIDEmprestimo().equals(idEmpretimo)){
+//					return it;
+//				}
+//			}
+//			
+//		}
 		
 		return null;
 	}
@@ -403,11 +442,23 @@ public class GerenciadorItens {
 	 *         Dias passados
 	 */
 	public void incrementarDias(int dias){
-		for (Item it: listaMeusItens){
-			if (it.getEmprestimo()!=null){
-				it.getEmprestimo().adicionarDias(dias);
+		Iterator<Item> it = getListaMeusItens().iterator();
+		Item item;
+		
+		while (it.hasNext()){
+			item = it.next();
+			
+			if (item.getEmprestimo()!=null){
+				item.getEmprestimo().adicionarDias(dias);
 			}
+			
 		}
+		
+//		for (Item it: listaMeusItens){
+//			if (it.getEmprestimo()!=null){
+//				it.getEmprestimo().adicionarDias(dias);
+//			}
+//		}
 	}
 	
 	/**
@@ -424,13 +475,24 @@ public class GerenciadorItens {
 	 *          Itens encontrados
 	 */
 	public String buscarItemCadastrado(String chave, String atributo, String tipoOrdenacao, String criterioOrdenacao){
+		Iterator<Item> it = getListaMeusItens().iterator();
 		String resp = "";
+		Item item;
 		
-		for (Item item : this.getListaMeusItens()){
+		while (it.hasNext()){
+			item = it.next();
+			
 			if (!item.pesquisa(chave, atributo).equals("")){
 				resp += item.pesquisa(chave, atributo);
 			}
 		}
+		
+		
+//		for (Item item : this.getListaMeusItens()){
+//			if (!item.pesquisa(chave, atributo).equals("")){
+//				resp += item.pesquisa(chave, atributo);
+//			}
+//		}
 		
 		return resp;
 	}
@@ -449,7 +511,6 @@ public class GerenciadorItens {
 		}
 		else if (this.getListaMeusItens().contains(item) && !this.getItensPraEmprestar().contains(item)){
 			throw new Exception ("O usuário não pode apagar este item enquanto estiver emprestado");
-			
 		} 
 		else {
 			this.getListaMeusItens().remove(item);
