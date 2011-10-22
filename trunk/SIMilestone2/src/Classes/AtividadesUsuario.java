@@ -7,18 +7,33 @@ import java.util.List;
 
 public class AtividadesUsuario {
 	
-	List<String> listaAtividades;
+	List<Atividade> listaAtividades;
+	List<Long> dataCriacaoAtividades;
 	
 	public AtividadesUsuario(){
-		listaAtividades = new LinkedList<String>();
+		listaAtividades = new ArrayList<Atividade>();
+		dataCriacaoAtividades = new ArrayList<Long>();
 	}
 
-	public void adicionarAtividades(String atividade){
-		listaAtividades.add(atividade);
+	public void adicionarAtividades(Atividade atividade){
+		if(!listaAtividades.contains(atividade) && !atividadeJaExiste(atividade)){
+			System.out.println((atividade.getAtividade()));
+			listaAtividades.add(atividade);
+			Collections.sort(listaAtividades);
+		    try {  
+		        Thread.sleep(10);  
+		     } catch (Exception e) {  
+		        e.printStackTrace();  
+		     }  
+		}
 	}
 	
-	public String getAtividades(){
-		return formataArray(listaAtividades).toString();
+	public String getCriacaoAtividades(){
+		return formataArray2(dataCriacaoAtividades).toString();
+	}
+	
+	public List<Atividade> getAtividades(){
+		return (listaAtividades);
 	}
 	
 	public boolean naoTemAtividades(){
@@ -60,5 +75,34 @@ public class AtividadesUsuario {
 		
 	}
 	
+private ArrayList<Long> formataArray2(List<Long> lista){
+		
+		ArrayList<Long> temp = new ArrayList<Long>();
+		
+		for(int i = lista.size()-1; i>=0;i--){
+			temp.add(lista.get(i));
+		}
+		return temp;
+		
+	}
+
+
+private boolean atividadeJaExiste(Atividade atv){
+	System.out.println(atv.getAtividade());
+	for(Atividade atvs: listaAtividades){
+		if(atvs.getAtividade().trim().equals(atv.getAtividade().trim())){
+			return true;
+		}
+	}return false;
+}
+	private void elimina(){
+		List<Atividade> x = new ArrayList<Atividade>();
+		
+		for(Atividade i: listaAtividades){
+			if(!atividadeJaExiste(i)){
+				x.add(i);
+			}
+		}listaAtividades = x;
+	}
 
 }

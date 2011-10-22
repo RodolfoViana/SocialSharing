@@ -331,10 +331,12 @@ public class Fachada {
 		
 		String nome1 = getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).getNome();
 		String atividade = nome1 + " precisa do item " + nomeItem;
-		getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).addAtividade(atividade);
+		
+		long criacao = System.currentTimeMillis();
+		getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).addAtividade(new Atividade(atividade,criacao));
 		
 		String idPublicacaoPedido = idSessao; 
-		
+		getGerenciadorUsuarios().getPedidos().add(new PedidoItem(atividade,idPublicacaoPedido,nomeItem,descricaoItem));
 		return idPublicacaoPedido;
 	}
 	
@@ -362,8 +364,16 @@ public class Fachada {
 		
 	}
 	
-	public void rePublicarPedido (String idSessao, String idPublicacaoPedido){
+	public void rePublicarPedido (String idSessao, String idPublicacaoPedido) throws Exception{
+
+		PedidoItem pedido =getGerenciadorUsuarios().buscarPedido(idPublicacaoPedido);
 		
+		String nome1 = getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).getNome();
+		String atividade = pedido.getPedido();
+		
+		long criacao = System.currentTimeMillis();
+		
+		getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).addAtividade(new Atividade(atividade,criacao));
 	}
 	
 	
