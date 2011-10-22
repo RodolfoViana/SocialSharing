@@ -238,42 +238,20 @@ public class Fachada {
 	}
 	
 	public String lerMensagens (String idSessao, String idTopico) throws Exception{
-		boolean resp1 = false;
-		boolean resp2 = false;
-		
-		if (!this.getGerenciadorUsuarios().msgExiste(idTopico)){
-			resp2 = true;
-		}
-		
-		if (!this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).equals(getGerenciadorUsuarios().buscarDestinatario(idTopico)) && !this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).equals(getGerenciadorUsuarios().buscarRemetente(idTopico))){
-			resp1 = true;
-		}
-		
-		return this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).getGerenciadorMensagens().lerMensagens(resp1,resp2,idTopico);
+		return this.getGerenciadorUsuarios().lerMensagens(idSessao, idTopico);
 	}
 	
 	public void requisitarDevolucao(String idSessao, String idEmprestimo) throws Exception{
-		
 		this.getGerenciadorUsuarios().requisitarDevolucao(idSessao, idEmprestimo);
 	}
 		
 	public void adicionarDias(int dias){
-	
 		this.getGerenciadorUsuarios().simularPassagemDoTempo(dias);
-		
 	}
 	
 	public void registrarInteresse(String idSessao, String idItem) throws Exception{
 		Usuario usuario = this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
-		if (this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).equals(this.getGerenciadorUsuarios().buscarDonoItem(idItem))){
-			throw new Exception ("O usuário não pode registrar interesse no próprio item");
-		}
-		Item item = this.getGerenciadorUsuarios().buscarDonoItem(idItem).getGerenciadorItens().buscarItemPorID(idItem);
-		if (item.getEmprestimo() == null){
-			throw new Exception("O usuário não tem permissão para registrar interesse neste item");
-		}
-		item.getEmprestimo().registrarInteresse(usuario);	
-		getGerenciadorUsuarios().adicionarAtividadesUsuario(idSessao, item, "interesse");
+		this.getGerenciadorUsuarios().registrarInteresse(usuario, idSessao, idItem);
 	}
 	
 	
@@ -294,24 +272,15 @@ public class Fachada {
 		usuario.getGerenciadorItens().apagarItem(item);
 	}
 	
-	/**
-	 * 
-	 * @param idSessao
-	 * @param categoria
-	 * @return
-	 * @throws Exception
-	 */
 	public String getRanking(String idSessao, String categoria) throws Exception{
 		return this.getGerenciadorUsuarios().getRanking(idSessao, categoria);
 	}
-	
 	
 	public String historicoAtividades(String idSessao) throws Exception{
 		return getGerenciadorUsuarios().historicoAtividades(idSessao);
 	}
 	
-	public String historicoAtividadesConjunto(String idSessao) throws Exception{
-		
+	public String historicoAtividadesConjunto(String idSessao) throws Exception{	
 		return this.getGerenciadorUsuarios().historicoAtividadesConjunto(idSessao);
 	}
 	

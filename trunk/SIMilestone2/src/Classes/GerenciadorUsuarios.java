@@ -1348,5 +1348,34 @@ public class GerenciadorUsuarios {
 		}
 		return false;
 	}
+
+	public String lerMensagens(String idSessao, String idTopico) throws Exception {
+		boolean permissaoPraLer = false;
+		boolean topicoExiste = false;
+		Usuario usuario = buscarUsuarioPorID(idSessao);
+		
+		if (!msgExiste(idTopico)){
+			topicoExiste = true;
+		}
+		
+		if (!buscarUsuarioPorID(idSessao).equals(buscarDestinatario(idTopico)) && !buscarUsuarioPorID(idSessao).equals(buscarRemetente(idTopico))){
+			permissaoPraLer = true;
+		}
+		
+		return usuario.getGerenciadorMensagens().lerMensagens(idTopico, permissaoPraLer, topicoExiste);
+	}
+
+	public void registrarInteresse(Usuario usuario, String idSessao, String idItem) throws Exception {
+		
+		if (buscarUsuarioPorID(idSessao).equals(buscarDonoItem(idItem))){
+			throw new Exception ("O usuário não pode registrar interesse no próprio item");
+		}
+		Item item = buscarDonoItem(idItem).getGerenciadorItens().buscarItemPorID(idItem);
+		if (item.getEmprestimo() == null){
+			throw new Exception("O usuário não tem permissão para registrar interesse neste item");
+		}
+		item.getEmprestimo().registrarInteresse(usuario);
+		adicionarAtividadesUsuario(idSessao, item, "interesse");	
+	}
 	
 }
