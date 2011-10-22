@@ -411,16 +411,8 @@ public class GerenciadorUsuarios {
 		}return cont;
 	}
 	
-	/**
-	 * Recupera o Dono do item
-	 * @param idItem
-	 *          ID do Item
-	 * @return
-	 *         Usuario dono do Item
-	 * @throws Exception
-	 *         Caso o ID do Item seja invalido
-	 */
-	public Usuario buscarDonoItem(String idItem) throws Exception {
+	
+	private Usuario buscarDonoItem(String idItem) throws Exception {
 		if (!stringValida(idItem)) {
 			throw new Exception("Identificador do item é inválido");
 		}
@@ -434,16 +426,8 @@ public class GerenciadorUsuarios {
 		throw new Exception("Item inexistente");
 	}
 	
-	/**
-	 * Recupera o dono do Item
-	 * @param item
-	 *        Item 
-	 * @return
-	 *       Usuario dono do Item
-	 * @throws Exception
-	 *        caso o Item seja inexistente
-	 */
-	public Usuario buscarDonoItem(Item item) throws Exception {
+	
+	private Usuario buscarDonoItem(Item item) throws Exception {
 		
 		for (Usuario usr : listaDeUsuariosLogados) {
 			for (Item it : usr.getGerenciadorItens().getListaMeusItens()) {
@@ -567,19 +551,6 @@ public class GerenciadorUsuarios {
 		return usuario;
 	}
 	
-	public Item buscarItemEmprestador(String idEmprestimo) throws Exception{
-		Usuario usr = buscarUsuarioBeneficiador(idEmprestimo);
-		
-		if (usr != null){
-			usr.getGerenciadorItens().confirmarTerminoEmprestimo(buscarItemEmprestador(idEmprestimo));
-		}
-		
-		
-		return null;
-		
-		
-	}
-	
 	public Item buscarItemIdEmprestimo(String idEmpretimo) throws Exception{
 		Item item = null;
 		
@@ -591,7 +562,6 @@ public class GerenciadorUsuarios {
 						break;
 					}	
 				}
-			
 			}
 		}
 		
@@ -627,7 +597,7 @@ public class GerenciadorUsuarios {
 		}return false;
 	}
 	
-	public Usuario buscarDestinatario(String idTopico){
+	private Usuario buscarDestinatario(String idTopico){
 		for (Usuario usr: listaDeUsuarios){
 			for (Mensagem msg : usr.getGerenciadorMensagens().getListaDeMensagens()){
 				if (msg.getIdMensagem().equals(idTopico) && msg.getDestinatario().equals(usr)){
@@ -637,7 +607,7 @@ public class GerenciadorUsuarios {
 		}return null;
 	}
 	
-	public Usuario buscarRemetente(String idTopico){
+	private Usuario buscarRemetente(String idTopico){
 		for (Usuario usr: listaDeUsuarios){
 			for (Mensagem msg : usr.getGerenciadorMensagens().getListaDeMensagens()){
 				if (msg.getIdMensagem().equals(idTopico) && !msg.getDestinatario().equals(usr)){
@@ -1376,6 +1346,95 @@ public class GerenciadorUsuarios {
 		}
 		item.getEmprestimo().registrarInteresse(usuario);
 		adicionarAtividadesUsuario(idSessao, item, "interesse");	
+	}
+
+	public String publicarPedido(Usuario usuario, String nomeItem,
+			String descricaoItem) throws Exception {
+		if (!stringValida(nomeItem)){
+			throw new Exception ("Nome inválido");
+		}
+		
+		if (!stringValida(descricaoItem)){
+			throw new Exception ("Descrição inválida");
+		}
+		
+		String nome1 = usuario.getNome();
+		String atividade = nome1 + " precisa do item " + nomeItem;
+		
+		long criacao = System.currentTimeMillis();
+		usuario.addAtividade(new Atividade(atividade,criacao));
+		
+		String idPublicacaoPedido = usuario.getID(); 
+		getPedidos().add(new PedidoItem(atividade,idPublicacaoPedido,nomeItem,descricaoItem));
+		return idPublicacaoPedido;
+	}
+
+	public void oferecerItem(Usuario usuario, String idPublicacaoPedido,
+			String idItem) throws Exception {
+		if (!stringValida(idPublicacaoPedido)){
+			throw new Exception ("Identificador da publicação de pedido é inválido");
+		}
+		
+		try {
+			buscarUsuarioPorID(idPublicacaoPedido);
+		} catch (Exception e){
+			throw new Exception ("Publicação de pedido inexistente");
+		}
+		
+		buscarItemPorID(idItem);
+		
+		String assunto = "O usuário " + usuario.getNome() + " ofereceu o item " + buscarItemPorID(idItem).getNome(); 
+		String mensagem = "Item oferecido: " + buscarItemPorID(idItem).getNome() + " - " + buscarItemPorID(idItem).getDescricao();
+		String login = buscarUsuarioPorID(idPublicacaoPedido).getLogin();
+		
+		
+		enviarMensagem(usuario.getID(), login, assunto, mensagem);
+		
+	}
+
+	public void rePublicarPedido(Usuario usuario, PedidoItem pedido) {
+		String atividade = pedido.getPedido();
+		long criacao = System.currentTimeMillis();
+		usuario.addAtividade(new Atividade(atividade,criacao));
+
+		
+	}
+
+	public String aprovarEmprestimo(String idSessao,
+			String idRequisicaoEmprestimo) throws Exception {
+		Usuario usuario = null;
+		Usuario usuario2 = null;
+		boolean usuariosSaoAmigos = true;
+		boolean ehDonoDoItem = true;
+		
+		
+		try {
+			usuario = buscarUsuarioIdEmprestimo(idRequisicaoEmprestimo);
+			usuario2 = buscarUsuarioPorID(idSessao);
+
+			usuariosSaoAmigos = usuario.getGerenciadorAmizades().ehMeuAmigo(usuario2);
+			ehDonoDoItem = buscarUsuarioEmprestador(idSessao).equals(buscarUsuarioPorID(idSessao));
+
+		} catch (Exception e){	
+		}
+		String resposta = buscarUsuarioPorID(idSessao).getGerenciadorItens().aprovarRequisicaoEmprestimo(ehDonoDoItem,usuariosSaoAmigos, requisicaoEmprestimoExiste(idRequisicaoEmprestimo),idRequisicaoEmprestimo);
+		try{
+			adicionarAtividadesUsuario(idSessao, usuario, buscarItemIdEmprestimo(resposta));
+		}catch(Exception e){
+			
+		}
+		return resposta;
+	}
+
+	public String getAtributoItem(String idItem, String atributo) throws Exception {
+		return buscarDonoItem(idItem).getGerenciadorItens().getAtributoItem(idItem, atributo);
+	}
+
+	public void apagarItem(String idSessao, String idItem) throws Exception {
+		Usuario usuario = buscarUsuarioPorID(idSessao);
+		Item item = buscarDonoItem(idItem).getGerenciadorItens().buscarItemPorID(idItem);
+		usuario.getGerenciadorItens().apagarItem(item);
+		
 	}
 	
 }
