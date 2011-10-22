@@ -3,10 +3,10 @@ package Classes;
 public class PedidoItem {
 	
 	String pedido;
-	
 	String idPedido;
 	String descricaoItem;
 	String nomeIt;
+	
 	public PedidoItem(String pedido, String idPedido, String nomeit, String descricaoItem){
 		this.idPedido = idPedido;
 		this.pedido = pedido;
