@@ -2,6 +2,7 @@ package Classes;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class AtividadesUsuario {
@@ -75,11 +76,23 @@ public class AtividadesUsuario {
 
 	private boolean atividadeJaExiste(Atividade atv) {
 		System.out.println(atv.getAtividade());
-		for (Atividade atvs : listaAtividades) {
-			if (atvs.getAtividade().trim().equals(atv.getAtividade().trim())) {
+		
+		Iterator<Atividade> it = listaAtividades.iterator();
+		
+		while (it.hasNext()){
+			Atividade atvs = it.next();
+			
+			if (atvs.getAtividade().trim().equals(atv.getAtividade().trim())){
 				return true;
 			}
+			
 		}
+		
+//		for (Atividade atvs : listaAtividades) {
+//			if (atvs.getAtividade().trim().equals(atv.getAtividade().trim())) {
+//				return true;
+//			}
+//		}
 		return false;
 	}
 
