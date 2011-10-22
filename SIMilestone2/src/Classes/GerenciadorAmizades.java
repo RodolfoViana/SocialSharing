@@ -1,6 +1,7 @@
 package Classes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -186,7 +187,7 @@ public class GerenciadorAmizades {
 				return usuario;
 			}
 		}
-
+		
 		return null;
 	}
 	
@@ -199,14 +200,22 @@ public class GerenciadorAmizades {
 	 */
 	
 	public String getRequisicoesDeAmizade() throws Exception {
-
+		String requisicoes = "";
+		Iterator<Usuario> it = getListaDeProvaveisAmigos().iterator();
+		
 		if (getListaDeProvaveisAmigos().isEmpty()) {
 			return ("Não há requisições");
 		} else {
-			String requisicoes = "";
-			for (Usuario usr : getListaDeProvaveisAmigos()) {
-				requisicoes += usr.getLogin() + "; ";
+			
+			while (it.hasNext()){
+				Usuario usr = it.next();
+				
+				requisicoes += usr.getLogin() + "; ";	
 			}
+			
+//			for (Usuario usr : getListaDeProvaveisAmigos()) {
+//				requisicoes += usr.getLogin() + "; ";
+//			}
 
 			return formatarRequisicoes(requisicoes);
 		}
@@ -217,14 +226,22 @@ public class GerenciadorAmizades {
 	 * @return Retorna a lista de amigos em forma de String
 	 */
 	public String stringDeAmigos(){
+		String resp = "";
+		Iterator<Usuario> it = getListaDeAmigos().iterator();
+		
 		if (getListaDeAmigos().isEmpty()){
 			return "O usuário não possui amigos";
 		}
-		String resp = "";
 		
-		for (Usuario usr : getListaDeAmigos()){
+		while (it.hasNext()){
+			Usuario usr = it.next();
+			
 			resp += usr.getLogin() + "; ";
 		}
+		
+//		for (Usuario usr : getListaDeAmigos()){
+//			resp += usr.getLogin() + "; ";
+//		}
 		
 		return formatarRequisicoes(resp);
 		
@@ -232,14 +249,17 @@ public class GerenciadorAmizades {
 	
 	private String formatarRequisicoes(String requisicoes){
 		String retorno = "";
-		for (int i =0;i< requisicoes.split("; ").length;i++){
-			if (i==requisicoes.split("; ").length-1){
-				retorno +=requisicoes.split("; ")[i];
+		
+		for (int i =0; i< requisicoes.split("; ").length; i++){
+			if (i == requisicoes.split("; ").length-1){
+				retorno += requisicoes.split("; ")[i];
 				break;
 			}
 			retorno += requisicoes.split("; ")[i] + "; ";
 			
-		}return retorno;
+		}
+		
+		return retorno;
 	}
 	
 	private boolean stringValida(String string) {
@@ -262,13 +282,22 @@ public class GerenciadorAmizades {
 	 * Recupera o Amigo com mais alta Reputacao
 	 */
 	public Usuario amigoComReputacaoMaisAlta(){
-		
+		Iterator<Usuario> it = getListaDeAmigos().iterator();
 		Usuario usuario = listaDeAmigos.get(0);
-		for(Usuario usr: listaDeAmigos){
-			if (usr.getReputacao()>usuario.getReputacao()){
+		
+		while (it.hasNext()){
+			Usuario usr = it.next();
+			
+			if (usr.getReputacao() > usuario.getReputacao()){
 				usuario = usr;
 			}
-		}return usuario;
+		}
+//		for(Usuario usr: listaDeAmigos){
+//			if (usr.getReputacao() > usuario.getReputacao()){
+//				usuario = usr;
+//			}
+//		}
+		return usuario;
 		
 	}
 	

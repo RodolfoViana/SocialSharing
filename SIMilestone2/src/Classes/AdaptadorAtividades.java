@@ -2,9 +2,8 @@ package Classes;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.text.html.HTMLDocument.Iterator;
 
 public class AdaptadorAtividades {
 	
@@ -12,13 +11,6 @@ public class AdaptadorAtividades {
 		List<Atividade> x = new ArrayList<Atividade>();
 		
 		x.iterator();
-	}
-	
-	private void imprimir(List<Atividade> atividades){
-		for(Atividade i : atividades){
-			System.out.println(i.getAtividade());
-		}
-		System.out.println("\n");
 	}
 	
 	public String adaptar(List<Atividade> atividades){
@@ -30,15 +22,30 @@ public class AdaptadorAtividades {
 		String resposta = "";
 		
 		int cont = 0;
-		for(Atividade atv : atividades){
-			if(cont==atividades.size()-1){
+		
+		Iterator<Atividade> it = atividades.iterator();
+		
+		while (it.hasNext()){
+			it.next();
+			
+			if (cont == atividades.size()-1){
 				resposta += atividades.get(cont).getAtividade();
 			}
-			else{
+			else {
 				resposta += atividades.get(cont).getAtividade()+"; ";
 			}
-			cont++;
+			cont ++;
 		}
+		
+//		for(Atividade atv : atividades){
+//			if(cont==atividades.size()-1){
+//				resposta += atividades.get(cont).getAtividade();
+//			}
+//			else{
+//				resposta += atividades.get(cont).getAtividade()+"; ";
+//			}
+//			cont++;
+//		}
 		return resposta;
 		
 	}

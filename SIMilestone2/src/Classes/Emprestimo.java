@@ -103,7 +103,6 @@ public class Emprestimo {
 	 * @return
 	 *        Se o Item emrpestado foi devolvido
 	 */
-	
 	public boolean isDevolucao() {
 		return devolucao;
 	}
@@ -113,7 +112,6 @@ public class Emprestimo {
 	 * @param devolucao
 	 *           Boolean que diz se o item foi ou nao devolvido
 	 */
-	
 	public void setDevolucao(boolean devolucao) {
 		if(devolucao){
 			this.isCompletado = ((!isRequisitarDevolucao()));
@@ -145,6 +143,7 @@ public class Emprestimo {
 		GregorianCalendar calendario = new GregorianCalendar();
 		calendario.add(Calendar.DATE, this.duracao);
 		this.dataDeDevolucao = DateFormat.getDateInstance().format(calendario.getTime());
+		
 		return gerarIDEmprestimo();
 	}
 	
@@ -155,6 +154,7 @@ public class Emprestimo {
 	 */
 	public String gerarIDRequisicao(){
 		idRequisicao = beneficiado.getID() + "Requisicao" + (new Random()).nextInt(1000);
+		
 		return idRequisicao;
 	}
 	
@@ -165,6 +165,7 @@ public class Emprestimo {
 	 */
 	private String gerarIDEmprestimo(){
 		idEmprestimo = beneficiado.getID() + "Emprestimo" + (new Random()).nextInt(1000);
+		
 		return idEmprestimo;
 	}
 	
@@ -173,7 +174,6 @@ public class Emprestimo {
 	 * @throws Exception
 	 *            Caso a devolucao ja tenha sido requisitada
 	 */
-	
 	public void requisitarDevolucao() throws Exception {
 		if(requisitarDevolucao){
 			throw new Exception ("Devolução já requisitada");
@@ -191,7 +191,6 @@ public class Emprestimo {
 	 *       True, caso foi requisitado a devolucao
 	 *       False, caso contrario
 	 */
-	
 	public boolean isRequisitarDevolucao() {
 		return requisitarDevolucao;
 	}
@@ -212,7 +211,6 @@ public class Emprestimo {
 	 * @throws Exception
 	 *         Caso o usuario ja tenha registrado interesse 
 	 */
-	
 	public void registrarInteresse (Usuario usuario) throws Exception{
 		if (getListaDeUsuariosInteressados().contains(usuario)){
 			throw new Exception("O usuário já registrou interesse neste item");
@@ -228,14 +226,13 @@ public class Emprestimo {
 	 *        False, caso contrario
 	 */
 	public boolean tempoEmprestimoNaoExpiro(){
+		boolean retorno = false;
+		String[] data1 = this.dataDeDevolucao.split("/");
+		String[] dataHJ = DateFormat.getDateInstance().format(this.calendario.getTime()).split("/");
 		
 		if (this.metodoFoiChamado >= 1){
 			return isCancelado;
 		}
-		
-		boolean retorno = false;
-		String[] data1 = this.dataDeDevolucao.split("/");
-		String[] dataHJ = DateFormat.getDateInstance().format(this.calendario.getTime()).split("/");
 		
 		if(this.dataDeDevolucao.equals(DateFormat.getDateInstance().format(this.calendario.getTime()))){
 			retorno= false;
@@ -251,6 +248,7 @@ public class Emprestimo {
 				}
 			}
 		}
+		
 		else if (data1[2].equals(dataHJ[2])){
 			
 			if (Integer.parseInt(data1[1])>=(Integer.parseInt(dataHJ[1]))){
@@ -260,6 +258,7 @@ public class Emprestimo {
 				retorno = false;
 			}
 		}
+		
 		else if(Integer.parseInt(data1[2])>=(Integer.parseInt(dataHJ[2]))){
 			retorno =true;
 		}
@@ -297,7 +296,6 @@ public class Emprestimo {
 	 *       True, caso o emprestimo tenha sido requisitado
 	 *       False, caso contrario
 	 */
-	
 	public boolean emprestimoFoiRequisitado(){
 		return requisicaoEmprestimo;
 	}
@@ -307,7 +305,6 @@ public class Emprestimo {
 	 * @return True, caso o emprestimo foi completado
 	 *         False, caso contrario
 	 */
-	
 	public boolean foiCompletado(){
 		return isCompletado;
 	}
