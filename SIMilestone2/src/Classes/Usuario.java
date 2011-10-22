@@ -188,9 +188,6 @@ public class Usuario {
 	}
 	
 	public List<Atividade> getHistoricoAtividades(){
-//		if(atividades.naoTemAtividades()){
-//			return "Não há atividades";
-//		}
 		return atividades.getAtividades();
 	}
 	

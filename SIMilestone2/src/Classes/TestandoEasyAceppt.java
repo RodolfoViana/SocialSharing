@@ -29,7 +29,7 @@ public class TestandoEasyAceppt {
          files.add("US16.txt");
          files.add("US17_18.txt");
          files.add("US19.txt");
-//         files.add("US20.txt");
+         files.add("US20.txt");
          Fachada rede  = new Fachada();
          
     

@@ -16,20 +16,12 @@ import java.util.Random;
 public class Emprestimo {
 	
 	private Usuario beneficiado;
-	private int duracao;
-	private String idRequisicao;
-	private String idEmprestimo;
-	private boolean requisicaoEmprestimo;
-	private boolean emprestimoAprovado;
-	private boolean devolucao;
-	private boolean devolvido;
-	private boolean requisitarDevolucao;
+	private String idRequisicao, idEmprestimo, dataDeDevolucao;
+	private boolean requisicaoEmprestimo, emprestimoAprovado, devolucao, devolvido;
+	private boolean requisitarDevolucao, isCancelado, isCompletado;
+	private int duracao, metodoFoiChamado;
 	private List<Usuario> listaDeUsuariosInteressados;
-	private String dataDeDevolucao;
 	private GregorianCalendar calendario;
-	private boolean isCancelado;
-	private boolean isCompletado;
-	private int metodoFoiChamado = 0;
 	
 	/**
 	 * Inicia os atributos da classe
@@ -42,21 +34,21 @@ public class Emprestimo {
 	 *         Caso o Usuario beneficiado seja igual a null
 	 */
 	public Emprestimo(Usuario beneficiado, int duracao)throws Exception{
-		if (beneficiado==null){
+		if (beneficiado == null){
 			throw new Exception("Beneficiado nao pode ser igual a null");
 		}
-		else if(duracao<=0){
+		else if(duracao <= 0){
 			throw new Exception("Duracao inválida");
 		}
 		
 		this.listaDeUsuariosInteressados = new ArrayList<Usuario>();
 		this.beneficiado = beneficiado;
 		this.duracao = duracao;
-		requisicaoEmprestimo  = true;
-		emprestimoAprovado = false;
-		devolucao = false;
-		devolvido = false;
-		requisitarDevolucao = false;
+		this.requisicaoEmprestimo  = true;
+		this.emprestimoAprovado = false;
+		this.devolucao = false;
+		this.devolvido = false;
+		this.requisitarDevolucao = false;
 	}
 	
 	/**
@@ -64,7 +56,6 @@ public class Emprestimo {
 	 * @return
 	 *       Usuario beneficiado
 	 */
-	
 	public Usuario getBeneficiado(){
 		return beneficiado;
 	}
@@ -74,7 +65,6 @@ public class Emprestimo {
 	 * @return
 	 *        ID de Requisicao de Emprestimo
 	 */
-	
 	public String getIDRequisicao(){
 		return idRequisicao;
 	}
@@ -84,7 +74,6 @@ public class Emprestimo {
 	 * @return
 	 *        ID de Emprestimo
 	 */
-	
 	public String getIDEmprestimo(){
 		return idEmprestimo;
 	}
@@ -178,7 +167,7 @@ public class Emprestimo {
 		if(requisitarDevolucao){
 			throw new Exception ("Devolução já requisitada");
 		}
-		if(calendario==null){
+		if(calendario == null){
 			calendario = new  GregorianCalendar();
 		}
 		

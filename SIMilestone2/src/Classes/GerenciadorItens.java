@@ -128,7 +128,6 @@ public class GerenciadorItens {
 		return formatarRequisicoes(resp);
 	}
 	
-	//TODO depois arrumar isso
 	private String formatarRequisicoes(String requisicoes){
 		String retorno = "";
 		for (int i =0; i< requisicoes.split("; ").length; i++){
@@ -298,7 +297,7 @@ public class GerenciadorItens {
 	 *          Caso algum dos Parametros seja invalido
 	 */
 	public String requisitarEmprestimos(Usuario beneficiado,String idItem, int dias) throws Exception{
-		if (buscarItemPorID(idItem).getEmprestimo()!=null && buscarItemPorID(idItem).getEmprestimo().getBeneficiado().equals(beneficiado) && buscarItemPorID(idItem).getEmprestimo().emprestimoFoiRequisitado()){
+		if (buscarItemPorID(idItem).getEmprestimo() != null && buscarItemPorID(idItem).getEmprestimo().getBeneficiado().equals(beneficiado) && buscarItemPorID(idItem).getEmprestimo().emprestimoFoiRequisitado()){
 			throw new Exception("Requisição já solicitada");
 		}
 
@@ -342,16 +341,6 @@ public class GerenciadorItens {
 			}
 		}
 		
-//		for (Item it: listaMeusItens){
-//			if (it.getEmprestimo()!=null && it.getEmprestimo().getIDRequisicao().equals(idRequisicaoEmprestimo) && !it.getEmprestimo().emprestimoFoiAprovado()){
-//				this.getItensPraEmprestar().remove(it);
-//				return it.getEmprestimo().aprovarEmprestimo();
-//			}
-//			else if(it.getEmprestimo()!=null && it.getEmprestimo().getIDRequisicao().equals(idRequisicaoEmprestimo) && it.getEmprestimo().emprestimoFoiAprovado()){
-//				throw new Exception("Empréstimo já aprovado");
-//			}	
-//		}
-		
 		if (!requisicaoExiste){
 			throw new Exception("Requisição de empréstimo inexistente");
 		}
@@ -384,12 +373,6 @@ public class GerenciadorItens {
 			
 		}
 		
-//		for (Item it : getListaMeusItens()) {
-//			if (it.getID().equals(id)) {
-//				return it;
-//			}
-//		}
-		
 		return null;
 	}
 	
@@ -412,17 +395,7 @@ public class GerenciadorItens {
 				}
 			}
 			
-		}
-		
-//		for (Item it : getListaMeusItens()){
-//			if (it.getEmprestimo() != null){
-//				if (it.getEmprestimo().getIDEmprestimo().equals(idEmpretimo)){
-//					return it;
-//				}
-//			}
-//			
-//		}
-		
+		}	
 		return null;
 	}
 	
@@ -453,12 +426,6 @@ public class GerenciadorItens {
 			}
 			
 		}
-		
-//		for (Item it: listaMeusItens){
-//			if (it.getEmprestimo()!=null){
-//				it.getEmprestimo().adicionarDias(dias);
-//			}
-//		}
 	}
 	
 	/**
@@ -485,15 +452,7 @@ public class GerenciadorItens {
 			if (!item.pesquisa(chave, atributo).equals("")){
 				resp += item.pesquisa(chave, atributo);
 			}
-		}
-		
-		
-//		for (Item item : this.getListaMeusItens()){
-//			if (!item.pesquisa(chave, atributo).equals("")){
-//				resp += item.pesquisa(chave, atributo);
-//			}
-//		}
-		
+		}		
 		return resp;
 	}
 	
