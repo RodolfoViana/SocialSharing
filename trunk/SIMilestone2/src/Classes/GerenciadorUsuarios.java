@@ -3,7 +3,6 @@ package Classes;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -974,6 +973,7 @@ public class GerenciadorUsuarios {
 	public void requisitarDevolucao(String idSessao, String idEmprestimo) throws Exception{
 		
     	buscarUsuarioPorID(idSessao);
+    	boolean testa = false;
 			
 		if (!stringValida(idEmprestimo)){
 			throw new Exception("Identificador do empréstimo é inválido");
@@ -984,7 +984,9 @@ public class GerenciadorUsuarios {
 		}
 		
 		try {
-			boolean testa = (! buscarUsuarioBeneficiador(idEmprestimo).equals( buscarUsuarioPorID(idSessao)) && ! buscarUsuarioIdEmprestimo(idEmprestimo).equals(buscarUsuarioPorID(idSessao)));	
+			if (!testa){
+				testa = (! buscarUsuarioBeneficiador(idEmprestimo).equals( buscarUsuarioPorID(idSessao)) && ! buscarUsuarioIdEmprestimo(idEmprestimo).equals(buscarUsuarioPorID(idSessao)));
+			}
 		}catch (Exception e){
 			throw new Exception("O usuário não tem permissão para requisitar a devolução deste item");
 		}	
@@ -1262,7 +1264,7 @@ public class GerenciadorUsuarios {
 			}
 		}
 		
-		List<Atividade> lista = eliminaAtividade(atvGeral);
+		eliminaAtividade(atvGeral);
 		
 		Collections.sort(atvGeral);
 		return (new AdaptadorAtividades()).adaptar(atvGeral);
@@ -1289,28 +1291,28 @@ public class GerenciadorUsuarios {
 		return retorno;
 	}
 	
-	private String removePontoVirgula(String str){
-		
-		String temporaria = "";
-		str = str.replaceAll("; ", ";");
-		
-		for(int i = 0 ; i< str.split(";").length;i++){
-			if(i!=str.split(";").length-1){
-				temporaria += str.split(";")[i] + "; ";
-			} else{
-				temporaria += str.split(";")[i];
-			}
-		}return temporaria;
-		
-	}
-	
-	private String formataString(String str){
-		return str.replace("[", "").replace("]", "").replaceAll(",", ";");
-	}
-	
-	private String formataString2(String str){
-		return str.replace("[", "").replace(",", ";").replaceAll(",", ";");
-	}
+//	private String removePontoVirgula(String str){
+//		
+//		String temporaria = "";
+//		str = str.replaceAll("; ", ";");
+//		
+//		for(int i = 0 ; i< str.split(";").length;i++){
+//			if(i!=str.split(";").length-1){
+//				temporaria += str.split(";")[i] + "; ";
+//			} else{
+//				temporaria += str.split(";")[i];
+//			}
+//		}return temporaria;
+//		
+//	}
+//	
+//	private String formataString(String str){
+//		return str.replace("[", "").replace("]", "").replaceAll(",", ";");
+//	}
+//	
+//	private String formataString2(String str){
+//		return str.replace("[", "").replace(",", ";").replaceAll(",", ";");
+//	}
 	
 	private Usuario usuarioComMenorReputacaoDaLista(List<Usuario> lista){
 		Usuario usuario = lista.get(0);

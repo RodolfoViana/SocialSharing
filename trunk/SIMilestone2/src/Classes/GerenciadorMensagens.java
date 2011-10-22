@@ -54,13 +54,6 @@ public class GerenciadorMensagens {
 				return true;
 			}
 		}
-
-		// for (Mensagem msg : this.getListaDeMensagens()){
-		// if (msg.getAssunto().equals(assunto)){
-		// return true;
-		// }
-		// }
-
 		return false;
 	}
 
@@ -76,14 +69,6 @@ public class GerenciadorMensagens {
 				return true;
 			}
 		}
-
-		// for (Mensagem msg :
-		// usuarioDestinatario.getGerenciadorMensagens().getListaDeMensagens()){
-		// if (msg.getAssunto().equals(assunto)){
-		// return true;
-		// }
-		// }
-
 		return false;
 	}
 
@@ -117,14 +102,6 @@ public class GerenciadorMensagens {
 
 				}
 			}
-
-			// for (Mensagem msg : this.getListaDeMensagens()){
-			// if (msg.getAssunto().equals(assunto)){
-			// msg.addMensagem(mensagem);
-			// msgReturn = msg;
-			//
-			// }
-			// }
 		}
 
 		else {
@@ -139,14 +116,6 @@ public class GerenciadorMensagens {
 
 					}
 				}
-
-				// for (Mensagem msg : this.getListaDeMensagens()){
-				// if (msg.getAssunto().equals(assunto)){
-				// msg.addMensagem(mensagem);
-				// msgReturn = msg;
-				//
-				// }
-				// }
 			}
 
 			if (assuntoExisteDestinatario(destinatario, assunto)) {
@@ -157,13 +126,6 @@ public class GerenciadorMensagens {
 						msg2.addMensagem(mensagem);
 					}
 				}
-
-				// for (Mensagem msg2 :
-				// destinatario.getGerenciadorMensagens().getListaDeMensagens()){
-				// if (msg2.getAssunto().equals(assunto)){
-				// msg2.addMensagem(mensagem);
-				// }
-				// }
 			}
 
 			else {
@@ -309,11 +271,6 @@ public class GerenciadorMensagens {
 				reString += msg.getCorpoDaMensagem();
 			}
 		}
-//		for (Mensagem msg : this.getListaDeMensagens()) {
-//			if (msg.getIdMensagem().equals(idTopico)) {
-//				reString += msg.getCorpoDaMensagem();
-//			}
-//		}
 		if (resp2) {
 			throw new Exception("Tópico inexistente");
 		}

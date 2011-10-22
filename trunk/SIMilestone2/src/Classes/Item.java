@@ -204,11 +204,7 @@ public class Item {
     		
     		
     		
-    	} else {
-    		//TODO Lanca execao 
-    	}
-    	
-    	
+    	} 	
     	return "";
     }
     

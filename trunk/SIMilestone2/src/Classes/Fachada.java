@@ -82,7 +82,6 @@ public class Fachada {
 	 * @throws Exception Caso idSessao ou login sejam invalidos
 	 */
 	public String ehAmigo(String idSessao, String login) throws Exception {
-
 		if (this.getGerenciadorUsuarios()
 				.buscarUsuarioPorID(idSessao)
 				.getGerenciadorAmizades()
@@ -108,7 +107,6 @@ public class Fachada {
 				.getGerenciadorAmizades()
 				.adicionarProvavelAmigo(
 						getGerenciadorUsuarios().buscarUsuarioPorID(idSessao));
-
 	}
 
 	public String localizarUsuario(String idSessao, String chave, String atributo) throws Exception {
@@ -197,9 +195,7 @@ public class Fachada {
 			usuariosSaoAmigos = usuario.getGerenciadorAmizades().ehMeuAmigo(usuario2);
 			ehDonoDoItem = getGerenciadorUsuarios().buscarUsuarioEmprestador(idSessao).equals(getGerenciadorUsuarios().buscarUsuarioPorID(idSessao));
 
-		} catch (Exception e){
-			
-			
+		} catch (Exception e){	
 		}
 		String resposta = this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).getGerenciadorItens().aprovarRequisicaoEmprestimo(ehDonoDoItem,usuariosSaoAmigos,this.getGerenciadorUsuarios().requisicaoEmprestimoExiste(idRequisicaoEmprestimo),idRequisicaoEmprestimo);
 		try{

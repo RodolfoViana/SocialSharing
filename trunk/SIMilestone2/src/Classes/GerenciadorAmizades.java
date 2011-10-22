@@ -51,7 +51,7 @@ public class GerenciadorAmizades {
 	 */
 	
 	public void adicionarNovoAmigo(Usuario usr)throws Exception{
-		if (usr==null){
+		if (usr == null){
 			throw new Exception("Usuario nao pode ser igual a null");
 		}
 		else if(listaDeAmigos.contains(usr)){
@@ -63,7 +63,7 @@ public class GerenciadorAmizades {
 	}
 	
 	public void adicionarAmigo(Usuario usr)throws Exception{
-		if (usr==null){
+		if (usr == null){
 			throw new Exception("Usuario nao pode ser igual a null");
 		}
 		else if(listaDeAmigos.contains(usr)){
@@ -84,7 +84,7 @@ public class GerenciadorAmizades {
 	 *          Caso o usuario seja igual a null
 	 */
 	public void adicionarProvavelAmigo(Usuario usr)throws Exception{
-		if (usr==null){
+		if (usr == null){
 			throw new Exception("Usuario nao pode ser igual a null");
 		}
 		else if(listaDeAmigos.contains(usr)){
@@ -108,7 +108,7 @@ public class GerenciadorAmizades {
 	 */
 	
 	public boolean ehMeuAmigo(Usuario usr)throws Exception{
-		if (usr==null){
+		if (usr == null){
 			throw new Exception("Usuario nao pode ser igual a Null");
 		}
 		return listaDeAmigos.contains(usr);
@@ -126,7 +126,7 @@ public class GerenciadorAmizades {
 	 */
 	
 	public boolean ehUmProvavelAmigo(Usuario usr)throws Exception{
-		if (usr==null){
+		if (usr == null){
 			throw new Exception("Usuario nao pode ser igual a Null");
 		}
 		return listaDeProvaveisAmigos.contains(usr);
@@ -142,7 +142,7 @@ public class GerenciadorAmizades {
 	 */
 	
 	public void removerAmigo(Usuario usr)throws Exception{
-		if (usr==null){
+		if (usr == null){
 			throw new Exception("Usuario nao pode ser igual a Null");
 		}
 		else if(!listaDeAmigos.contains(usr)){
@@ -160,7 +160,7 @@ public class GerenciadorAmizades {
 	 *         ou nao seja seu amigo
 	 */
 	public void removerProvavelAmigo(Usuario usr)throws Exception{
-		if (usr==null){
+		if (usr == null){
 			throw new Exception("Usuario nao pode ser igual a Null");
 		}
 		else if(!listaDeProvaveisAmigos.contains(usr)){
@@ -206,16 +206,10 @@ public class GerenciadorAmizades {
 		if (getListaDeProvaveisAmigos().isEmpty()) {
 			return ("Não há requisições");
 		} else {
-			
 			while (it.hasNext()){
 				Usuario usr = it.next();
-				
 				requisicoes += usr.getLogin() + "; ";	
 			}
-			
-//			for (Usuario usr : getListaDeProvaveisAmigos()) {
-//				requisicoes += usr.getLogin() + "; ";
-//			}
 
 			return formatarRequisicoes(requisicoes);
 		}
@@ -239,10 +233,6 @@ public class GerenciadorAmizades {
 			resp += usr.getLogin() + "; ";
 		}
 		
-//		for (Usuario usr : getListaDeAmigos()){
-//			resp += usr.getLogin() + "; ";
-//		}
-		
 		return formatarRequisicoes(resp);
 		
 	}
@@ -256,7 +246,6 @@ public class GerenciadorAmizades {
 				break;
 			}
 			retorno += requisicoes.split("; ")[i] + "; ";
-			
 		}
 		
 		return retorno;
@@ -266,6 +255,7 @@ public class GerenciadorAmizades {
 		if (string == null || string.isEmpty()) {
 			return false;
 		}
+		
 		return true;
 	}
 	
@@ -292,13 +282,7 @@ public class GerenciadorAmizades {
 				usuario = usr;
 			}
 		}
-//		for(Usuario usr: listaDeAmigos){
-//			if (usr.getReputacao() > usuario.getReputacao()){
-//				usuario = usr;
-//			}
-//		}
-		return usuario;
 		
+		return usuario;
 	}
-	
 }
