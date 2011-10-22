@@ -13,7 +13,8 @@ public class GerenciadorItens {
 	private List<Item> listaMeusItens;
 	private List<Item> itensPraEmprestar;
 	private List<Item> itensPraDevolver;
-	private List<Emprestimo> listaDeEmprestimosCompletados;
+//	private List<Emprestimo> listaDeEmprestimosCompletados;
+	private List<Item> listaDeEmprestimos;
 	
 	/**
 	 * Inicia os Atributos da Classe
@@ -23,7 +24,8 @@ public class GerenciadorItens {
 		listaMeusItens = new ArrayList<Item>();
 		itensPraDevolver = new ArrayList<Item>();
 		itensPraEmprestar = new ArrayList<Item>();
-		listaDeEmprestimosCompletados = new ArrayList<Emprestimo>();
+//		listaDeEmprestimosCompletados = new ArrayList<Emprestimo>();
+		listaDeEmprestimos = new ArrayList<Item>();
 	}
 	
 	/**
@@ -69,8 +71,12 @@ public class GerenciadorItens {
 	 *       Quantidade de Emprestimos Completados
 	 */
 	
+//	public int quantEmprestimosCompletados(){
+//		return this.listaDeEmprestimosCompletados.size();
+//	}
+	
 	public int quantEmprestimosCompletados(){
-		return this.listaDeEmprestimosCompletados.size();
+		return this.listaDeEmprestimos.size();
 	}
 
 	/**
@@ -465,8 +471,13 @@ public class GerenciadorItens {
 	 * @param emp
 	 *         Emprestimo que foi completado
 	 */
-	public void addEmprestimoCompletado(Emprestimo emp){
-		this.listaDeEmprestimosCompletados.add(emp);
+//	public void addEmprestimoCompletado(Emprestimo emp){
+//		this.listaDeEmprestimosCompletados.add(emp);
+//	}
+	
+	public void addEmprestimoCompletado(Item item){
+		this.listaDeEmprestimos.add(item);
 	}
+	
 
 }

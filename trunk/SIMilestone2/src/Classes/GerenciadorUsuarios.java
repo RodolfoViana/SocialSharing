@@ -755,10 +755,11 @@ public class GerenciadorUsuarios {
 	 *       ID do Item
 	 * @throws Exception
 	 */
-	public String cadastrarItem(Usuario usuario, Item it) throws Exception {
+	public String cadastrarItem(Usuario usuario, String nome, String descricao, String categoria) throws Exception {
 		
-		return usuario.getGerenciadorItens().adicionarItem(it);
+		return usuario.getGerenciadorItens().adicionarItem(new Item(nome, descricao, categoria));
 	}
+		
 
 	/**
 	 * Abre uma Sessao para o usuario
@@ -878,7 +879,7 @@ public class GerenciadorUsuarios {
 		usuario2.getGerenciadorItens().confirmarTerminoEmprestimo(item);
 		
 		if(item.getEmprestimo().foiCompletado()){
-			usuario2.getGerenciadorItens().addEmprestimoCompletado(item.getEmprestimo());
+			usuario2.getGerenciadorItens().addEmprestimoCompletado(item);
 		}
 		
 		String assunto = "O item " + item.getNome() + " do usuário " + usuario2.getNome() + " está disponível";
