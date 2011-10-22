@@ -2,7 +2,10 @@ package Classes;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+
 /**
  * Classe responsavel por Gerenciar os Usuarios do Sistema
  * @author ARTHUR SENA, RODOLFO DE LIMA, IGOR GOMES, RENNAN PINTO
@@ -12,6 +15,7 @@ public class GerenciadorUsuarios {
 
 	List<Usuario> listaDeUsuarios;
 	List<Usuario> listaDeUsuariosLogados;
+	List<PedidoItem> listaPedidos; 
 	
 	/**
 	 * Inicia os Atributos da Classe
@@ -20,7 +24,13 @@ public class GerenciadorUsuarios {
 	public GerenciadorUsuarios() {
 		listaDeUsuarios = new ArrayList<Usuario>();
 		listaDeUsuariosLogados = new ArrayList<Usuario>();
+		listaPedidos= new ArrayList<PedidoItem>();
 	}
+	
+	public List<PedidoItem> getPedidos(){
+		return listaPedidos;
+	}
+	
 	
 	/**
 	 * Recupera a Lista de Usuarios cadastrados no Sistema
@@ -1138,8 +1148,8 @@ public class GerenciadorUsuarios {
 	}
 	
 	public String historicoAtividades(String idSessao)throws Exception{
-		
-		return formataString(this.buscarUsuarioPorID(idSessao).getHistoricoAtividades());
+//		System.out.println(buscarUsuarioPorID(idSessao).getHistoricoAtividades().get(0).getAtividade());
+		return (new AdaptadorAtividades()).adaptar(this.buscarUsuarioPorID(idSessao).getHistoricoAtividades());
 	}
 	
 	public void adicionarAtividadesUsuario(String idSessao, String login, String tipoAtividade) throws Exception{
@@ -1149,10 +1159,17 @@ public class GerenciadorUsuarios {
 		
 		if(tipoAtividade.equals("amizade")){
 			String atividade1 =  nome1 +" e " + nome2 + " são amigos agora";
-			buscarUsuarioPorID(idSessao).addAtividade(atividade1);
+			long criacao = System.currentTimeMillis();
+			buscarUsuarioPorID(idSessao).addAtividade(new Atividade(atividade1,criacao));
 			
+			
+			
+			long criacao2 = System.currentTimeMillis();
 			String atividade2 = nome2 +" e " + nome1 + " são amigos agora";
-			buscarUsuarioPorLogin(login).addAtividade(atividade2);
+			
+			
+			
+			buscarUsuarioPorLogin(login).addAtividade(new Atividade(atividade2, criacao2));
 		}
 		
 		
@@ -1167,10 +1184,17 @@ public class GerenciadorUsuarios {
 		String nomeItem  = it.getNome();
 		
 		String atividade = nome1 + " emprestou " + nomeItem + " a " + nome2; 
-		buscarUsuarioPorID(idSessao).addAtividade(atividade);
+		long criacao = System.currentTimeMillis();
+		buscarUsuarioPorID(idSessao).addAtividade(new Atividade(atividade,criacao));
 		
-		
-		
+	}
+	
+	public PedidoItem buscarPedido(String idSessao){
+		for(PedidoItem pedido: listaPedidos){
+			if(pedido.getIdPedido().equals(idSessao)){
+				return pedido;
+			}
+		}return null;
 	}
 	
 	
@@ -1179,18 +1203,24 @@ public class GerenciadorUsuarios {
 		if(tipoAtividade.equals("item")){
 			String nome1 = buscarUsuarioPorID(idSessao).getNome();
 			String atividade1 =  nome1 + " cadastrou " + it.getNome();
-			buscarUsuarioPorID(idSessao).addAtividade(atividade1);
+			
+			long criacao = System.currentTimeMillis();
+			buscarUsuarioPorID(idSessao).addAtividade(new Atividade(atividade1, criacao));
 		}
 		else if(tipoAtividade.equals("interesse")){
 			String nome1 = buscarUsuarioPorID(idSessao).getNome();
 			String atividade1 =  nome1 + " tem interesse pelo item " + it.getNome() + " de " + buscarDonoItem(it).getNome();
-			buscarUsuarioPorID(idSessao).addAtividade(atividade1);
+		
+			long criacao = System.currentTimeMillis();
+			buscarUsuarioPorID(idSessao).addAtividade(new Atividade(atividade1, criacao));
+//			System.out.println(buscarUsuarioPorID(idSessao).getHistoricoAtividades().get(1).getAtividade());
 		}
 		else if(tipoAtividade.equals("terminoEmprestimo")){
 			String nome1 = buscarUsuarioPorID(idSessao).getNome();
 			String atividade1 =  nome1 + " confirmou o término do empréstimo do item " + it.getNome();
-			buscarUsuarioPorID(idSessao).addAtividade(atividade1);
-		}
+			
+			long criacao = System.currentTimeMillis();
+			buscarUsuarioPorID(idSessao).addAtividade(new Atividade(atividade1, criacao));		}
 		
 		
 		
@@ -1215,26 +1245,58 @@ public class GerenciadorUsuarios {
 	
 	public String historicoAtividadesConjunto(String idSessao) throws Exception{
 		Usuario usr = this.buscarUsuarioPorID(idSessao);
-		String atividades = (usr.getHistoricoAtividades());
+		List<Atividade> atv = usr.getHistoricoAtividades();
 		
-		String temp = "";
-		
-		for(Usuario amigos : usr.getGerenciadorAmizades().getListaDeAmigos()){
-				temp+=amigos.getHistoricoAtividades();
-			
-		}
-		temp+=atividades;
-		temp = temp.replaceAll("]", ",");
-		String temp2 = "";
-		
-//		return temp;
-		for(String x : temp.split(",")){
-			if (!(x.contains(" e " + usr.getNome()))){
-				temp2 += x +",";
+	
+		List<Atividade> atvGeral = new ArrayList<Atividade>();;
+	
+		if(!atv.isEmpty()){
+			for(Atividade atividades:atv){
+				atvGeral.add(atividades);
 			}
 		}
-	return (removePontoVirgula(formataString2(temp2)));
 		
+
+		for(Usuario amigos:usr.getGerenciadorAmizades().getListaDeAmigos()){
+			for(Atividade atividades:amigos.getHistoricoAtividades()){
+				if(!amigos.getHistoricoAtividades().isEmpty() && !atividades.getAtividade().contains(usr.getNome())){
+					atvGeral.add(atividades);
+				}
+				else if(!amigos.getHistoricoAtividades().isEmpty() && atividades.getAtividade().contains(usr.getNome()) && atividades.getAtividade().contains("emprestou")){
+					atvGeral.add(atividades);
+				}
+				
+				else if(!amigos.getHistoricoAtividades().isEmpty() && atividades.getAtividade().contains(usr.getNome()) && atividades.getAtividade().contains("interesse")){
+					atvGeral.add(atividades);
+				}
+			}
+		}
+		
+		List<Atividade> lista = eliminaAtividade(atvGeral);
+		
+		Collections.sort(atvGeral);
+		return (new AdaptadorAtividades()).adaptar(atvGeral);
+		
+	}
+	
+	
+	private List<Atividade> eliminaAtividade(List<Atividade> atv){
+		List<Atividade> retorno = new ArrayList<Atividade>();
+		boolean contem = false;
+		for(Atividade atividade1: atv){
+			for(Atividade atividade2: retorno){
+				if(atividade1.equals(atividade2)){
+					contem = true;
+					break;
+				}
+			}
+			if(!contem){
+				retorno.add(atividade1);
+			}
+		}
+
+		
+		return retorno;
 	}
 	
 	private String removePontoVirgula(String str){

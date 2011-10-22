@@ -1,5 +1,6 @@
 package Classes;
 
+import java.util.List;
 import java.util.Random;
 
 
@@ -186,16 +187,18 @@ public class Usuario {
 		atividades = new AtividadesUsuario();
 	}
 	
-	public String getHistoricoAtividades(){
-		if(atividades.naoTemAtividades()){
-			return "Não há atividades";
-		}
+	public List<Atividade> getHistoricoAtividades(){
+//		if(atividades.naoTemAtividades()){
+//			return "Não há atividades";
+//		}
 		return atividades.getAtividades();
 	}
 	
+	public String getDataCriacaoAtividades(){
+		return atividades.getCriacaoAtividades();
+	}
 	
-	
-	public void addAtividade(String atividade){
+	public void addAtividade(Atividade atividade){
 		atividades.adicionarAtividades(atividade);
 	}
 	
