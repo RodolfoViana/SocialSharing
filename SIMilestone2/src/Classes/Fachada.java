@@ -369,7 +369,7 @@ public class Fachada {
 
 		PedidoItem pedido =getGerenciadorUsuarios().buscarPedido(idPublicacaoPedido);
 		
-		String nome1 = getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).getNome();
+		getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).getNome();
 		String atividade = pedido.getPedido();
 		
 		long criacao = System.currentTimeMillis();
