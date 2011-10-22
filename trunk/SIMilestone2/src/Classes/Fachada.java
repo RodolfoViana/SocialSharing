@@ -20,18 +20,21 @@ public class Fachada {
 	public Fachada() {
 		gerenciadorUsu = new GerenciadorUsuarios();
 	}
+	
 	/**
 	 * Zera o sistema
 	 */
 	public void zerarSistema() {
 		gerenciadorUsu = new GerenciadorUsuarios();
 	}
+	
 	/**
 	 * Responsavel por encerrar o sistema
 	 */
 	public void encerrarSistema() {
 		// TODO tem que salvar os dados dos usuarios em algum local
 	}
+	
 	/**
 	 * Responsavel por retornar o gerenciador de usuario
 	 * @return Gerenciador de usuario
@@ -39,6 +42,7 @@ public class Fachada {
 	public GerenciadorUsuarios getGerenciadorUsuarios() {
 		return gerenciadorUsu;
 	}
+	
 	/**
 	 * Responsavel por aprovar amizade entre dois usuarios
 	 * @param idSessao Sessao do usuario 
@@ -59,6 +63,7 @@ public class Fachada {
 		this.getGerenciadorUsuarios().adicionarAtividadesUsuario(idSessao, login, "amizade");
 
 	}
+	
 	/**
 	 * Responsavel pelas requisicoes de amizade entre dois usuarios
 	 * @param idSessao IdSessao do usuario
@@ -124,6 +129,7 @@ public class Fachada {
 		Usuario usuario = getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
 		String resposta = getGerenciadorUsuarios().cadastrarItem(usuario, nome, descricao, categoria);
 		getGerenciadorUsuarios().adicionarAtividadesUsuario(idSessao, new Item(nome, descricao, categoria), "item");
+		
 		return resposta;
 	}
 
@@ -133,6 +139,7 @@ public class Fachada {
 
 	public String abrirSessao(String login) throws Exception {
 		Usuario usr = getGerenciadorUsuarios().buscarUsuarioPorLogin(login);
+		
 		return getGerenciadorUsuarios().abrirSessao(usr);
 	}
 
@@ -157,7 +164,6 @@ public class Fachada {
 		Usuario usuario = getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
 		
 		return getGerenciadorUsuarios().getItens(usuario);
-
 	}
 
 	public String getItens(String idSessao, String login) throws Exception {
@@ -212,8 +218,6 @@ public class Fachada {
 		
 		getGerenciadorUsuarios().devolverItem(usuario, usuario2, item);	
 	}
-		
-	
 	
 	public void confirmarTerminoEmprestimo(String idSessao, String idEmprestimo) throws Exception{
 		Usuario usuario2 = this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
@@ -229,13 +233,11 @@ public class Fachada {
 	}
 	
 	public String enviarMensagem (String idSessao, String destinatario, String assunto, String mensagem, String idRequisicaoEmprestimo) throws Exception{
-
 		return this.getGerenciadorUsuarios().enviarMensagem(idSessao, destinatario, assunto, mensagem, idRequisicaoEmprestimo);
 		
 	}
 	
-	public String lerTopicos (String idSessao, String tipo) throws Exception{
-		
+	public String lerTopicos (String idSessao, String tipo) throws Exception{	
 		return this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).getGerenciadorMensagens().lerTopicos(tipo);
 	}
 	
@@ -244,7 +246,7 @@ public class Fachada {
 		boolean resp2 = false;
 		
 		if (!this.getGerenciadorUsuarios().msgExiste(idTopico)){
-			resp2=true;
+			resp2 = true;
 		}
 		
 		if (!this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).equals(getGerenciadorUsuarios().buscarDestinatario(idTopico)) && !this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).equals(getGerenciadorUsuarios().buscarRemetente(idTopico))){
@@ -257,7 +259,6 @@ public class Fachada {
 	public void requisitarDevolucao(String idSessao, String idEmprestimo) throws Exception{
 		
 		this.getGerenciadorUsuarios().requisitarDevolucao(idSessao, idEmprestimo);
-		
 	}
 		
 	public void adicionarDias(int dias){
@@ -374,10 +375,7 @@ public class Fachada {
 		long criacao = System.currentTimeMillis();
 		
 		getGerenciadorUsuarios().buscarUsuarioPorID(idSessao).addAtividade(new Atividade(atividade,criacao));
-	}
-	
-	
-	
+	}	
 	
 	private boolean stringValida(String string){
         if (string == null || string.isEmpty()){
@@ -385,7 +383,4 @@ public class Fachada {
         }
         return true;
     }
-
-		
-	
 }
