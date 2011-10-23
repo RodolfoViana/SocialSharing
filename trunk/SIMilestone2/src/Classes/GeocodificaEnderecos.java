@@ -9,6 +9,16 @@ import java.util.List;
 
 public class GeocodificaEnderecos {
 	
+	private static GeocodificaEnderecos geocodificaEnderecos;
+	
+	
+	public static GeocodificaEnderecos getInstance(){
+		if(geocodificaEnderecos==null){
+			geocodificaEnderecos = new GeocodificaEnderecos();
+		}
+		return geocodificaEnderecos;
+	}
+	
 	private static int recuperaIndiceDoMenorDaLista(List<Double> lista){
 		int indice = 0;
 		double menorDalista = Double.MAX_VALUE;

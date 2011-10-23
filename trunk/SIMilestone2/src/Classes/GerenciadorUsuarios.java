@@ -169,7 +169,7 @@ public class GerenciadorUsuarios {
 			return "Nenhum usuário encontrado";
 		}
 		
-		GeocodificaEnderecos geoc = new GeocodificaEnderecos();
+		GeocodificaEnderecos geoc =  GeocodificaEnderecos.getInstance();
 		
 		double distancia;
 		Usuario usrLogado = null;
