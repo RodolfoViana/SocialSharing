@@ -17,7 +17,6 @@ public class AtividadesUsuario {
 
 	public void adicionarAtividades(Atividade atividade) {
 		if (!atividadeJaExiste(atividade)){
-			System.out.println((atividade.getAtividade()));
 			listaAtividades.add(atividade);
 			Collections.sort(listaAtividades);
 			try {
@@ -27,17 +26,6 @@ public class AtividadesUsuario {
 			}
 			
 		}
-		
-//		if (!listaAtividades.contains(atividade) && !atividadeJaExiste(atividade)) {
-//			System.out.println((atividade.getAtividade()));
-//			listaAtividades.add(atividade);
-//			Collections.sort(listaAtividades);
-//			try {
-//				Thread.sleep(10);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
 	}
 
 	public String getCriacaoAtividades() {
@@ -62,16 +50,10 @@ public class AtividadesUsuario {
 	}
 
 	private boolean atividadeJaExiste(Atividade atv) {
-		System.out.println(atv.getAtividade());
-
 		Iterator<Atividade> it = listaAtividades.iterator();
 
 		while (it.hasNext()) {
 			Atividade atvs = it.next();
-			String atv1 = atv.getAtividade().trim();
-			String atvs2 = atvs.getAtividade().trim();
-			
-			
 			if (atvs.getAtividade().trim().equals(atv.getAtividade().trim())) {
 				return true;
 			}

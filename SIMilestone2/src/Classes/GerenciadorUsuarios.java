@@ -978,7 +978,7 @@ public class GerenciadorUsuarios {
 			
 			enviarMensagem(idSessao, destinatario, assunto, mensagem,  buscarUsuarioBeneficiador(idEmprestimo).getGerenciadorItens().buscarItemIdEmprestimo(idEmprestimo).getEmprestimo().getIDRequisicao());
 		} catch (Exception e){
-			System.out.println(e.getLocalizedMessage());
+			e.getLocalizedMessage();
 		}
 	}
 	/**
