@@ -1126,8 +1126,7 @@ public class GerenciadorUsuarios {
 	}
 	
 	public String historicoAtividades(String idSessao)throws Exception{
-//		System.out.println(buscarUsuarioPorID(idSessao).getHistoricoAtividades().get(0).getAtividade());
-		return (new AdaptadorAtividades()).adaptar(this.buscarUsuarioPorID(idSessao).getHistoricoAtividades());
+		return (new FormatadorAtividades()).adaptarAtividades(this.buscarUsuarioPorID(idSessao).getHistoricoAtividades());
 	}
 	
 	public void adicionarAtividadesUsuario(String idSessao, String login, String tipoAtividade) throws Exception{
@@ -1191,7 +1190,6 @@ public class GerenciadorUsuarios {
 		
 			long criacao = System.currentTimeMillis();
 			buscarUsuarioPorID(idSessao).addAtividade(new Atividade(atividade1, criacao));
-//			System.out.println(buscarUsuarioPorID(idSessao).getHistoricoAtividades().get(1).getAtividade());
 		}
 		else if(tipoAtividade.equals("terminoEmprestimo")){
 			String nome1 = buscarUsuarioPorID(idSessao).getNome();
@@ -1237,7 +1235,7 @@ public class GerenciadorUsuarios {
 		eliminaAtividade(atvGeral);
 		
 		Collections.sort(atvGeral);
-		return (new AdaptadorAtividades()).adaptar(atvGeral);
+		return (new FormatadorAtividades()).adaptarAtividades(atvGeral);
 		
 	}
 	

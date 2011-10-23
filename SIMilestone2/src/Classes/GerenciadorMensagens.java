@@ -309,18 +309,5 @@ public class GerenciadorMensagens {
 		return reString;
 	}
 
-//	private boolean msgExiste(String idTopico){
-//		Iterator<Mensagem> it = getListaDeMensagens().iterator();
-//		Mensagem mensagem; 
-//		
-//		while (it.hasNext()){
-//			mensagem = it.next();
-//			
-//			if (mensagem.getIdMensagem().equals(idTopico)){
-//				return true;
-//			}	
-//		}
-//		return false;
-//	}
 	
 }

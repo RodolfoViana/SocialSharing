@@ -1,29 +1,51 @@
 package Classes;
 
+/**
+ * Classe que representa uma Atividade realizada por um Usuario
+ * @author ARTHUR SENA, RODOLFO DE LIMA, RENNAN PINTO, IGOR CRUZ
+ *
+ */
+
 public class Atividade implements Comparable<Atividade>{
 	
 	private String atividade;
 	private long criacaoAtividade;
 	
-	public static void main(String[] args) {
-		String x = "William Henry Gates III precisa do item Guia do mochileiro das galáxias";
-		String y = "William Henry Gates III precisa do item Guia do mochileiro das galáxias";
-		System.out.println(x.equals(y));
-	}
+	/**
+	 * Construtor da Classe
+	 * @param atividade
+	 *         A string que representa a Atividade realizada
+	 * @param criacaoAtividade
+	 *        O momento em que aconteceu a Atividade
+	 */
 	
 	public Atividade(String atividade, long criacaoAtividade){
 		this.atividade = atividade;
 		this.criacaoAtividade = criacaoAtividade;
 	}
 	
+	/**
+	 * Recupera a Atividade
+	 * @return
+	 *       Atividade
+	 */
 	public String getAtividade(){
 		return atividade;
 	}
+	
+	/**
+	 * Recupera o momenteo em que aconteceu a Criacao da Atividade
+	 * @return
+	 *        Momento da criacao da Atividade
+	 */
 	
 	public long getCriacaoAtividade(){
 		return criacaoAtividade;
 	}
 
+	/**
+	 * Compara duas Atividades
+	 */
 	@Override
 	public int compareTo(Atividade atv) {
 		if(atv.getCriacaoAtividade()>this.getCriacaoAtividade()){
@@ -35,6 +57,14 @@ public class Atividade implements Comparable<Atividade>{
 		return 0;
 	}
 	
+	/**
+	 * Diz se uma atividade eh igual a outra
+	 * @param atv
+	 *      Atividade a ser comparada
+	 * @return
+	 *       True, caso sejam iguais
+	 *       False, caso contrario
+	 */
 	public boolean equals(Atividade atv){
 		try{
 			String nome1, nome2;

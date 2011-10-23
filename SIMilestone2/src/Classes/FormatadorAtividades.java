@@ -1,19 +1,12 @@
 package Classes;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class AdaptadorAtividades {
+public class FormatadorAtividades {
 
-	public static void main(String[] args) {
-		List<Atividade> x = new ArrayList<Atividade>();
-
-		x.iterator();
-	}
-
-	public String adaptar(List<Atividade> atividades) {
+	public String adaptarAtividades(List<Atividade> atividades) {
 		String resposta = "";
 		int cont = 0;
 		Iterator<Atividade> it = atividades.iterator();
