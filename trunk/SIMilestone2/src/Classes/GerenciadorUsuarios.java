@@ -1217,8 +1217,8 @@ public class GerenciadorUsuarios {
 		}
 		
 
-		for(Usuario amigos:usr.getGerenciadorAmizades().getListaDeAmigos()){
-			for(Atividade atividades:amigos.getHistoricoAtividades()){
+		for(Usuario amigos : usr.getGerenciadorAmizades().getListaDeAmigos()){
+			for(Atividade atividades : amigos.getHistoricoAtividades()){
 				if(!amigos.getHistoricoAtividades().isEmpty() && !atividades.getAtividade().contains(usr.getNome())){
 					atvGeral.add(atividades);
 				}
@@ -1232,7 +1232,7 @@ public class GerenciadorUsuarios {
 			}
 		}
 		
-		eliminaAtividade(atvGeral);
+		atvGeral = eliminaAtividade(atvGeral);
 		
 		Collections.sort(atvGeral);
 		return (new FormatadorAtividades()).adaptarAtividades(atvGeral);
@@ -1243,9 +1243,11 @@ public class GerenciadorUsuarios {
 	private List<Atividade> eliminaAtividade(List<Atividade> atv){
 		List<Atividade> retorno = new ArrayList<Atividade>();
 		boolean contem = false;
+		
+		
 		for(Atividade atividade1: atv){
 			for(Atividade atividade2: retorno){
-				if(atividade1.equals(atividade2)){
+				if(atividade1.getAtividade().equals(atividade2.getAtividade())){
 					contem = true;
 					break;
 				}
@@ -1254,8 +1256,6 @@ public class GerenciadorUsuarios {
 				retorno.add(atividade1);
 			}
 		}
-
-		
 		return retorno;
 	}
 	
@@ -1394,8 +1394,6 @@ public class GerenciadorUsuarios {
 		String atividade = pedido.getPedido();
 		long criacao = System.currentTimeMillis();
 		usuario.addAtividade(new Atividade(atividade,criacao));
-
-		
 	}
 
 	public String aprovarEmprestimo(String idSessao,
