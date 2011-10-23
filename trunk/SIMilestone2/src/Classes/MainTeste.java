@@ -63,7 +63,19 @@ public class MainTeste {
 				cadastrarItem();
 			}
 			else if(entrada.equals("2")){
-				localizarUsuario();
+				System.out.println("Voce deseja localizar atraves de um Atributou ou a partir do Endereco?\n");
+				System.out.println("1) Atributos\n 2) Endereco");
+				String opcao = recebeEntrada();
+				if(opcao.equals("1")){
+					localizarUsuario();
+					
+				}
+				else if(opcao.equals("2")){
+					localizarUsuarioEndereco();
+				}
+				else{
+					System.out.println("Opcao Invalida!");
+				}
 			}
 			else if(entrada.equals("3")){
 				visualizarPerfil();
@@ -111,6 +123,18 @@ public class MainTeste {
 				desfazerAmizade();
 			}
 			else if(entrada.equals("17")){
+				historicoAtividades();
+			}
+			else if(entrada.equals("18")){
+				historicoAtividadesConjunto();
+			}
+			else if(entrada.equals("19")){
+				publicarPedido();
+			}
+			else if(entrada.equals("20")){
+				oferecerItem();
+			}
+			else if(entrada.equals("21")){
 				idSessao = null;
 				System.out.println("Usuario saiu com sucesso!");
 				break;
@@ -121,7 +145,49 @@ public class MainTeste {
 		}
 	}
 	
+	private static void oferecerItem(){
+		System.out.print("Digite o ID da publicacao do pedido: ");
+		String idPublicacaoPedido = recebeEntrada();
+		
+		System.out.print("Digite o ID do Item: ");
+		String idItem = recebeEntrada();
+		try {
+			rede.oferecerItem(idSessao, idPublicacaoPedido, idItem);
+			System.out.println("Item oferecido com Sucesso!!!");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 	
+	private static void publicarPedido(){
+		System.out.print("Digite o Nome do Item: ");
+		String nomeItem = recebeEntrada();
+		
+		System.out.println("Digite a Descricao do Item");
+		String descricaoItem = recebeEntrada();
+		try{
+			String id = rede.publicarPedido(idSessao, nomeItem, descricaoItem);
+			System.out.println("ID da Publicacao: " + id);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	private static void historicoAtividadesConjunto(){
+		try{
+			System.out.println(rede.historicoAtividadesConjunto(idSessao));
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	private static void historicoAtividades(){
+		try{
+			System.out.println(rede.historicoAtividades(idSessao));
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
 	
 	private static void visualizarPerfil(){
 		String amigos;
@@ -151,8 +217,16 @@ public class MainTeste {
 		}
 
 	}
-//	
-//	
+
+	private static void localizarUsuarioEndereco(){
+		try{
+			System.out.println(rede.localizarUsuario(idSessao));			
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	
 	//---------------------------#LOCALIZA UM USUARIO#-------------------------------------
 	private static void localizarUsuario(){
 
@@ -456,7 +530,7 @@ public class MainTeste {
 	private static void opcoesDoUsuario(){
 		System.out
 				.print("O que deseja fazer?\n "
-						+ "1) Cadastrar novo item\n 2) Localizar Usuario\n 3) Visualizar Meu Perfil\n 4) Adicionar Amigo\n 5)Enviar Mensagens\n 6)Ler Mensagens\n 7)Visualizar Perfil dos Amigos\n 8)Fazer Emprestimo\n 9)Ver Ranking dos Usuarios \n 10)Aprovar Emprestimo\n 11)Aprovar Amizade\n 12)Requisitar Devolucao\n 13)Registrar Interesse em Itens\n 14)Pesquisa de Itens \n 15)Apagar Itemm\n 16)Desfazer Amizade\n 17)Deslogar");
+						+ "1) Cadastrar novo item\n 2) Localizar Usuario\n 3) Visualizar Meu Perfil\n 4) Adicionar Amigo\n 5)Enviar Mensagens\n 6)Ler Mensagens\n 7)Visualizar Perfil dos Amigos\n 8)Fazer Emprestimo\n 9)Ver Ranking dos Usuarios \n 10)Aprovar Emprestimo\n 11)Aprovar Amizade\n 12)Requisitar Devolucao\n 13)Registrar Interesse em Itens\n 14)Pesquisa de Itens \n 15)Apagar Itemm\n 16)Desfazer Amizade\n 17)Historico Atividades\n 18)Historico Atividades Conjunto\n 19)Publicar Pedido\n 20)Oferecer Item\n 21)Deslogar");
 	}
 	
 	
