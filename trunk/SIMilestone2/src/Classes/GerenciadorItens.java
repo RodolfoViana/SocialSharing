@@ -424,7 +424,6 @@ public class GerenciadorItens {
 			if (item.getEmprestimo()!=null){
 				item.getEmprestimo().adicionarDias(dias);
 			}
-			
 		}
 	}
 	

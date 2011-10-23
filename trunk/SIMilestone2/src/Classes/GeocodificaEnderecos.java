@@ -6,7 +6,11 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Classe Responsavel por geocodificar um Endereco
+ * @author ARTHUR SENA, RODOLFO DE LIMA, RENNAN PINTO, IGOR CRUZ
+ *
+ */
 public class GeocodificaEnderecos {
 	
 	private static GeocodificaEnderecos geocodificaEnderecos;
@@ -31,19 +35,16 @@ public class GeocodificaEnderecos {
 		
 	}
 	
-	public static void main(String[] args) throws IOException {
-		
-		List<Double> x = new ArrayList<Double>();
-		x.add(-10.0);
-		x.add(8.0);
-		x.add(11.0);
-		x.add(1.0);
-		x.add(0.0);
-		System.out.println(x);
-		System.out.println(recuperaIndiceDoMenorDaLista(x));
-		
-	}
-	
+	/**
+	 * Calcula a Distancia entre dois Usuarios
+	 * @param usr1
+	 *           Usuario 1
+	 * @param usr2
+	 *           Usuario 2
+	 * @return
+	 *         Distancia
+	 * @throws IOException
+	 */
 	public double calculaDistancia(Usuario usr1, Usuario usr2) throws IOException{
 		
 		String endereco1 = formataEndereco(usr1.getEndereco());
@@ -59,9 +60,6 @@ public class GeocodificaEnderecos {
 	}
 	
 	private double recuperaDistancia(String ponto1, String ponto2){
-		
-		//D² = (Xb - Xa)² + (Yb - Ya)²
-		
 		double distancia;
 		
 		double latitudePonto1 = Double.parseDouble(ponto1.split(", ")[0].trim());
@@ -97,7 +95,6 @@ public class GeocodificaEnderecos {
 	}
 
 	private String formataEndereco(String endereco){
-		//Campina Grande, Paraiba => Campina+Grande,+Paraiba
 		String resposta = "";
 		int cont = 0;
 		for(String i : endereco.split(" ")){
