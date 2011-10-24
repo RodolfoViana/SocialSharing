@@ -31,8 +31,6 @@ public class Usuario {
 	 *           Nome do Usuario
 	 * @param login 
 	 *           Login do Usuario
-	 * @param senha 
-	 *           Senha do Usuario
 	 * @param end
 	 *           Endereco do Usuario
 	 * @throws Exception
@@ -193,13 +191,15 @@ public class Usuario {
 	public String getDataCriacaoAtividades(){
 		return atividades.getCriacaoAtividades();
 	}
-	
+
 	/**
 	 * Adiciona atividades
-	 * @param atividade Atividade que vai ser adicionada
+	 * @param atividade1 Atividade
+	 * @param criacao Criacao da atividade
 	 */
-	public void addAtividade(Atividade atividade){
-		atividades.adicionarAtividades(atividade);
+	public void addAtividade(String atividade1, long criacao) {
+		atividades.adicionarAtividades(atividade1, criacao);
+		
 	}
 	
 	

@@ -34,8 +34,8 @@ public class GeocodificaEnderecos {
 	 *         Distancia
 	 * @throws IOException
 	 */
-	public double calculaDistancia(Usuario usr1, Usuario usr2) throws IOException{
-		
+	public double calculaDistancia(Usuario usr1, Usuario usr2){
+		try{
 		String endereco1 = formataEndereco(usr1.getEndereco());
 		String endereco2 = formataEndereco(usr2.getEndereco());
 		
@@ -46,6 +46,10 @@ public class GeocodificaEnderecos {
 		endereco2 = geocodificar(url2);
 		
 		return recuperaDistancia(endereco1, endereco2);
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return -1;
 	}
 	
 	private double recuperaDistancia(String ponto1, String ponto2){

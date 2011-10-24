@@ -119,7 +119,7 @@ public class Emprestimo {
 	
 	/**
 	 * Altera a Devolucao do Item
-	 * @param devolucao
+	 * @param devolvido
 	 *           Boolean que diz se o item foi ou nao devolvido
 	 */
 	public void setDevolvido(boolean devolvido) {
