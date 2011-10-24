@@ -10,7 +10,6 @@ import java.util.List;
  * @author ARTHUR SENA, IGOR GOMES, RENAN PINTO, RODOLFO DE LIMA
  * 
  */
-
 public class GerenciadorMensagens {
 
 	private List<Mensagem> listaDeMensagens;
@@ -18,7 +17,6 @@ public class GerenciadorMensagens {
 	/**
 	 * Inicia os Atributos da Classe
 	 */
-
 	public GerenciadorMensagens() {
 		listaDeMensagens = new LinkedList<Mensagem>();
 	}
@@ -28,7 +26,6 @@ public class GerenciadorMensagens {
 	 * 
 	 * @return Uma Lista com todas as mensagens do Usuario
 	 */
-
 	public List<Mensagem> getListaDeMensagens() {
 		return listaDeMensagens;
 	}
@@ -281,8 +278,15 @@ public class GerenciadorMensagens {
 		return reString;
 	}
 	
+	/**
+	 * Responsavel por ler mensagem
+	 * @param idTopico ID do topico
+	 * @param permissaoPraLer Informa se o usuario tem permissao para ler
+	 * @param topicoExiste Informa se o topico existe
+	 * @return Retorna a mensagem
+	 * @throws Exception 
+	 */
 	public String lerMensagens(String idTopico, boolean permissaoPraLer, boolean topicoExiste) throws Exception{
-//		boolean topicoInexsite = msgExiste(idTopico);
 		String reString = "";
 		Iterator<Mensagem> it = getListaDeMensagens().iterator();
 		Mensagem msg;

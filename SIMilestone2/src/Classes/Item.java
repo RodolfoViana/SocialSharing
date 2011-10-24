@@ -6,8 +6,6 @@ import java.util.Random;
  * Classe que representa um Item do Sistema
  * @author ARTHUR SENA, RODOLFO DE LIMA, IGOR GOMES, RENNAN PINTO
  */
-
-
 public class Item {
 	
 	private String nome;
@@ -60,13 +58,16 @@ public class Item {
     /**
      * Recupera a descricao do Item
      * @return
-     *       Descricao do Item*/
-    
-    
+     *       Descricao do Item
+    */   
     public String getDescricao(){
     	return descricao;
     }
     
+    /**
+     * Recupera as outras categorias do item
+     * @return String com as categorias
+     */
     public String getOutrasCategorias(){
     	return outrasCategorias;
     }
@@ -76,8 +77,6 @@ public class Item {
      * @return
      *       Categoria do Item
      */
-    
-    
     public String getCategoria(){
     	return categoria;
     }
@@ -86,8 +85,7 @@ public class Item {
      * Recupera o ID do Item
      * @return
      *        ID do Item
-     */
-    
+     */ 
     public String getID(){
     	return idItem;
     }
@@ -119,7 +117,6 @@ public class Item {
      * @return
      *        Emprestimo do Item
      */
-    
     public Emprestimo getEmprestimo(){
     	return emprestimo;
     }

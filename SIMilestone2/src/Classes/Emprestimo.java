@@ -125,7 +125,12 @@ public class Emprestimo {
 	public void setDevolvido(boolean devolvido) {
 		this.devolvido = devolvido;
 	}
-
+	
+	/**
+	 * Aprova um emprestimo.
+	 * @return String como o id do emprestimo
+	 * @throws Exception 
+	 */
 	public String aprovarEmprestimo() throws Exception{
 		emprestimoAprovado = true;
 		requisicaoEmprestimo = false;
@@ -140,7 +145,7 @@ public class Emprestimo {
 	 * Gera o ID de Requisicao de Emprestimo
 	 * @return
 	 *        ID de Requisicao de Emprestimo
-	 */
+	 */	
 	public String gerarIDRequisicao(){
 		idRequisicao = beneficiado.getID() + "Requisicao" + (new Random()).nextInt(1000);
 		

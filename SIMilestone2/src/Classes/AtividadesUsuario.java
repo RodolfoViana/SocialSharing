@@ -5,16 +5,28 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Classe criada para guardar as atividades dos usuarios
+ * @author ARTHUR SENA, RODOLFO DE LIMA, RENAN PINTO, IGOR CRUZ
+ *
+ */
 public class AtividadesUsuario {
 
 	List<Atividade> listaAtividades;
 	List<Long> dataCriacaoAtividades;
 
+	/**
+	 * Construtor da classe
+	 */
 	public AtividadesUsuario() {
 		listaAtividades = new ArrayList<Atividade>();
 		dataCriacaoAtividades = new ArrayList<Long>();
 	}
 
+	/**
+	 * Adiciona uma atividade
+	 * @param atividade Atividade que vai ser adicionada
+	 */
 	public void adicionarAtividades(Atividade atividade) {
 		if (!atividadeJaExiste(atividade)){
 			listaAtividades.add(atividade);
@@ -28,16 +40,20 @@ public class AtividadesUsuario {
 		}
 	}
 
+	/**
+	 * Recupera a criacao da atividade
+	 * @return Criacao da atividade
+	 */
 	public String getCriacaoAtividades() {
 		return formataArray2(dataCriacaoAtividades).toString();
 	}
 
+	/**
+	 * Recupera a lista de atividades
+	 * @return Lista de atividades
+	 */
 	public List<Atividade> getAtividades() {
 		return (listaAtividades);
-	}
-
-	public boolean naoTemAtividades() {
-		return listaAtividades.isEmpty();
 	}
 
 	private ArrayList<Long> formataArray2(List<Long> lista) {

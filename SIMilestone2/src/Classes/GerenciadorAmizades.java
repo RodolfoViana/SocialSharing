@@ -18,7 +18,6 @@ public class GerenciadorAmizades {
 	/**
 	 * Inicia os Atributos da Classe
 	 */
-	
 	public GerenciadorAmizades(){
 		listaDeAmigos = new ArrayList<Usuario>();
 		listaDeProvaveisAmigos = new ArrayList<Usuario>();
@@ -28,7 +27,6 @@ public class GerenciadorAmizades {
 	 * Recupera a Lista de Amigos do Usuario 
 	 * @return Lista de Amigos do Usuario
 	 */
-	
 	public List<Usuario> getListaDeAmigos() {
 		return listaDeAmigos;
 	}
@@ -37,7 +35,6 @@ public class GerenciadorAmizades {
 	 * Recupera a Lista com os Amigos que enviaram convite pra Usuario
 	 * @return A Lista com os provaveis Amigos do Usuario
 	 */
-	
 	public List<Usuario> getListaDeProvaveisAmigos() {
 		return listaDeProvaveisAmigos;
 	}
@@ -49,7 +46,6 @@ public class GerenciadorAmizades {
 	 * @throws Exception
 	 *          Caso o usuario seja igual a null
 	 */
-	
 	public void adicionarNovoAmigo(Usuario usr)throws Exception{
 		if (usr == null){
 			throw new Exception("Usuario nao pode ser igual a null");
@@ -62,6 +58,11 @@ public class GerenciadorAmizades {
 		listaDeProvaveisAmigos.remove(usr);
 	}
 	
+	/**
+	 * Adiciona um amigo
+	 * @param usr Usuario que sera adicionado na lista
+	 * @throws Exception Caso o usuario seja igual a null
+	 */
 	public void adicionarAmigo(Usuario usr)throws Exception{
 		if (usr == null){
 			throw new Exception("Usuario nao pode ser igual a null");
@@ -198,7 +199,6 @@ public class GerenciadorAmizades {
 	 * @throws Exception
 	 *        Caso nao haja nenhuma requisicao de Amizade
 	 */
-	
 	public String getRequisicoesDeAmizade() throws Exception {
 		String requisicoes = "";
 		Iterator<Usuario> it = getListaDeProvaveisAmigos().iterator();

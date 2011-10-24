@@ -74,6 +74,7 @@ public class RedeSocial {
 		return this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao)
 				.getGerenciadorAmizades().getRequisicoesDeAmizade();
 	}
+	
 	/**
 	 * Responsavel por verificar se dois usuarios sao amigos
 	 * @param idSessao IdSessao do usuario
@@ -93,6 +94,7 @@ public class RedeSocial {
 		}
 
 	}
+	
 	/**
 	 * Responsavel por requisitar amizade entre dois usuarios
 	 * @param idSessao IdSessao do usuario

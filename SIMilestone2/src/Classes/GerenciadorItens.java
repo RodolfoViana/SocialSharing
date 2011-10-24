@@ -26,24 +26,6 @@ public class GerenciadorItens {
 		listaDeEmprestimos = new ArrayList<Item>();
 	}
 	
-//	/**
-//	 * Adiciona um Item 
-//	 * @param it
-//	 *         Item a ser adicionado
-//	 * @return
-//	 *        ID do item
-//	 * @throws Exception
-//	 *        Caso o Item seja nulo
-//	 */
-//	public String adicionarItem(Item it)throws Exception{
-//		if (it == null){
-//			throw new Exception("Item nao pode ser igual a null");
-//		}
-//		listaMeusItens.add(it);
-//		itensPraEmprestar.add(it);
-//		return it.getID();
-//	}
-
 	/**
 	 * Recupera uma lista com todos os itens do Usuario
 	 * @return
@@ -154,6 +136,99 @@ public class GerenciadorItens {
 	 */
 	public int getQuantidadeMeusItens(){
 		return listaMeusItens.size();
+	}
+	
+	/**
+	 * Requisita um Emprestimo
+	 * @param beneficiado
+	 *           Usuario Beneficiado pelo Emprestimo
+	 * @param idItem
+	 *           ID do Item que sera requisitado
+	 * @param dias
+	 *           Dias que o Beneficiado passara com o Item
+	 * @return
+	 *          ID de requisicao de Emprestimo
+	 * @throws Exception
+	 *          Caso algum dos Parametros seja invalido
+	 */
+	public String requisitarEmprestimos(Usuario beneficiado,String idItem, int dias) throws Exception{
+		if (buscarItemPorID(idItem).getEmprestimo() != null && buscarItemPorID(idItem).getEmprestimo().getBeneficiado().equals(beneficiado) && buscarItemPorID(idItem).getEmprestimo().emprestimoFoiRequisitado()){
+			throw new Exception("Requisição já solicitada");
+		}
+
+		return buscarItemPorID(idItem).criarRequisicaoEmprestimo(beneficiado, dias);
+	}
+	
+	/**
+	 * Aprova Um Emprestimo
+	 * @param ehDonoDoItem
+	 *           Diz se eh o Dono que esta aprovando o Emprestimo
+	 * @param usuarioSaoAmigos
+	 *           Diz se os Usuarios sao amigos
+	 * @param requisicaoExiste
+	 *           Diz se a requisicao Existe
+	 * @param idRequisicaoEmprestimo
+	 *           ID de Requisicao que sera efetivada como Emprestimo
+	 * @return
+	 *          ID do Emprestimo
+	 * @throws Exception
+	 *           Caso algums dos Parametros seja Invalido
+	 */
+	public String aprovarRequisicaoEmprestimo(boolean ehDonoDoItem, boolean usuarioSaoAmigos, boolean requisicaoExiste, String idRequisicaoEmprestimo) throws Exception{
+		Iterator<Item> it = getListaMeusItens().iterator();
+		Item item;
+		
+		if (!stringValida(idRequisicaoEmprestimo)){
+			throw new Exception("Identificador da requisição de empréstimo é inválido");
+		}
+		else if (!requisicaoExiste){
+			throw new Exception("Requisição de empréstimo inexistente");
+		}
+		
+		while (it.hasNext()){
+			item = it.next();
+			if (item.getEmprestimo() != null && item.getEmprestimo().getIDRequisicao().equals(idRequisicaoEmprestimo) && !item.getEmprestimo().emprestimoFoiAprovado()){
+				this.getItensPraEmprestar().remove(item);
+				return item.getEmprestimo().aprovarEmprestimo();
+			}
+			else if (item.getEmprestimo()!=null && item.getEmprestimo().getIDRequisicao().equals(idRequisicaoEmprestimo) && item.getEmprestimo().emprestimoFoiAprovado()){
+				throw new Exception("Empréstimo já aprovado");
+			}
+		}
+		
+		if (!requisicaoExiste){
+			throw new Exception("Requisição de empréstimo inexistente");
+		}
+		
+			throw new Exception("O empréstimo só pode ser aprovado pelo dono do item");
+		
+	}
+	
+	private boolean stringValida(String string) {
+		if (string == null || string.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Busca Item recebendo o id como parametro
+	 * @param id Id do item que deve ser pesquisado
+	 * @return Item caso o item exista, ou null caso contrario
+	 */
+	public Item buscarItemPorID(String id) {
+		Iterator<Item> it = getListaMeusItens().iterator();
+		Item item;
+		
+		while (it.hasNext()){
+			item = it.next();
+			if (item.getID().equals(id)){
+				return item;
+			}
+			
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -284,99 +359,6 @@ public class GerenciadorItens {
 	}
 	
 	/**
-	 * Requisita um Emprestimo
-	 * @param beneficiado
-	 *           Usuario Beneficiado pelo Emprestimo
-	 * @param idItem
-	 *           ID do Item que sera requisitado
-	 * @param dias
-	 *           Dias que o Beneficiado passara com o Item
-	 * @return
-	 *          ID de requisicao de Emprestimo
-	 * @throws Exception
-	 *          Caso algum dos Parametros seja invalido
-	 */
-	public String requisitarEmprestimos(Usuario beneficiado,String idItem, int dias) throws Exception{
-		if (buscarItemPorID(idItem).getEmprestimo() != null && buscarItemPorID(idItem).getEmprestimo().getBeneficiado().equals(beneficiado) && buscarItemPorID(idItem).getEmprestimo().emprestimoFoiRequisitado()){
-			throw new Exception("Requisição já solicitada");
-		}
-
-		return buscarItemPorID(idItem).criarRequisicaoEmprestimo(beneficiado, dias);
-	}
-	
-	/**
-	 * Aprova Um Emprestimo
-	 * @param ehDonoDoItem
-	 *           Diz se eh o Dono que esta aprovando o Emprestimo
-	 * @param usuarioSaoAmigos
-	 *           Diz se os Usuarios sao amigos
-	 * @param requisicaoExiste
-	 *           Diz se a requisicao Existe
-	 * @param idRequisicaoEmprestimo
-	 *           ID de Requisicao que sera efetivada como Emprestimo
-	 * @return
-	 *          ID do Emprestimo
-	 * @throws Exception
-	 *           Caso algums dos Parametros seja Invalido
-	 */
-	public String aprovarRequisicaoEmprestimo(boolean ehDonoDoItem, boolean usuarioSaoAmigos, boolean requisicaoExiste, String idRequisicaoEmprestimo) throws Exception{
-		Iterator<Item> it = getListaMeusItens().iterator();
-		Item item;
-		
-		if (!stringValida(idRequisicaoEmprestimo)){
-			throw new Exception("Identificador da requisição de empréstimo é inválido");
-		}
-		else if (!requisicaoExiste){
-			throw new Exception("Requisição de empréstimo inexistente");
-		}
-		
-		while (it.hasNext()){
-			item = it.next();
-			if (item.getEmprestimo() != null && item.getEmprestimo().getIDRequisicao().equals(idRequisicaoEmprestimo) && !item.getEmprestimo().emprestimoFoiAprovado()){
-				this.getItensPraEmprestar().remove(item);
-				return item.getEmprestimo().aprovarEmprestimo();
-			}
-			else if (item.getEmprestimo()!=null && item.getEmprestimo().getIDRequisicao().equals(idRequisicaoEmprestimo) && item.getEmprestimo().emprestimoFoiAprovado()){
-				throw new Exception("Empréstimo já aprovado");
-			}
-		}
-		
-		if (!requisicaoExiste){
-			throw new Exception("Requisição de empréstimo inexistente");
-		}
-		
-			throw new Exception("O empréstimo só pode ser aprovado pelo dono do item");
-		
-	}
-	
-	private boolean stringValida(String string) {
-		if (string == null || string.isEmpty()) {
-			return false;
-		}
-		return true;
-	}
-	
-	/**
-	 * Busca Item recebendo o id como parametro
-	 * @param id Id do item que deve ser pesquisado
-	 * @return Item caso o item exista, ou null caso contrario
-	 */
-	public Item buscarItemPorID(String id) {
-		Iterator<Item> it = getListaMeusItens().iterator();
-		Item item;
-		
-		while (it.hasNext()){
-			item = it.next();
-			if (item.getID().equals(id)){
-				return item;
-			}
-			
-		}
-		
-		return null;
-	}
-	
-	/**
 	 * Busca um Item que esta Emprestado
 	 * @param idEmpretimo
 	 *            ID do Emprestimo do Item
@@ -484,6 +466,14 @@ public class GerenciadorItens {
 		this.listaDeEmprestimos.add(item);
 	}
 
+	/**
+	 * Adiciona um item
+	 * @param nome Nome do item
+	 * @param descricao Descricao do item
+	 * @param categoria Categoria do item
+	 * @return String informando o ID do item
+	 * @throws Exception 
+	 */
 	@SuppressWarnings("unused")
 	public String adicionarItem(String nome, String descricao, String categoria) throws Exception {
 		Item item = new Item(nome, descricao, categoria);

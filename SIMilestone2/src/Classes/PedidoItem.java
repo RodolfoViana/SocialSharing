@@ -5,7 +5,6 @@ package Classes;
  * @author ARTHUR SENA, RODOLFO DE LIMA, RENNAN PINTO, IGOR CRUZ
  *
  */
-
 public class PedidoItem {
 	
 	String pedido;
@@ -24,7 +23,6 @@ public class PedidoItem {
 	 * @param descricaoItem
 	 *        A descricao do Item
 	 */
-	
 	public PedidoItem(String pedido, String idPedido, String nomeit, String descricaoItem){
 		this.idPedido = idPedido;
 		this.pedido = pedido;
