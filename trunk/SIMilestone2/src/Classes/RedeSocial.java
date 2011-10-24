@@ -10,14 +10,14 @@ package Classes;
  *
  */
 
-public class Fachada {
+public class RedeSocial {
 
 	GerenciadorUsuarios gerenciadorUsu;
 	
 	/**
 	 * Inicializa gerenciador de usuarios
 	 */
-	public Fachada() {
+	public RedeSocial() {
 		gerenciadorUsu = new GerenciadorUsuarios();
 	}
 	
