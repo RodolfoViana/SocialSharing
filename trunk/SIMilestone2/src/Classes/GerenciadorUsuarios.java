@@ -731,7 +731,7 @@ public class GerenciadorUsuarios {
 	 */
 	public String cadastrarItem(Usuario usuario, String nome, String descricao, String categoria) throws Exception {
 		
-		return usuario.getGerenciadorItens().adicionarItem(new Item(nome, descricao, categoria));
+		return usuario.getGerenciadorItens().adicionarItem(nome, descricao, categoria);
 	}
 		
 

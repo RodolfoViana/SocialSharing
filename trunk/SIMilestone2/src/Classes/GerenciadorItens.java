@@ -26,23 +26,23 @@ public class GerenciadorItens {
 		listaDeEmprestimos = new ArrayList<Item>();
 	}
 	
-	/**
-	 * Adiciona um Item 
-	 * @param it
-	 *         Item a ser adicionado
-	 * @return
-	 *        ID do item
-	 * @throws Exception
-	 *        Caso o Item seja nulo
-	 */
-	public String adicionarItem(Item it)throws Exception{
-		if (it == null){
-			throw new Exception("Item nao pode ser igual a null");
-		}
-		listaMeusItens.add(it);
-		itensPraEmprestar.add(it);
-		return it.getID();
-	}
+//	/**
+//	 * Adiciona um Item 
+//	 * @param it
+//	 *         Item a ser adicionado
+//	 * @return
+//	 *        ID do item
+//	 * @throws Exception
+//	 *        Caso o Item seja nulo
+//	 */
+//	public String adicionarItem(Item it)throws Exception{
+//		if (it == null){
+//			throw new Exception("Item nao pode ser igual a null");
+//		}
+//		listaMeusItens.add(it);
+//		itensPraEmprestar.add(it);
+//		return it.getID();
+//	}
 
 	/**
 	 * Recupera uma lista com todos os itens do Usuario
@@ -482,6 +482,18 @@ public class GerenciadorItens {
 	 */
 	public void addEmprestimoCompletado(Item item){
 		this.listaDeEmprestimos.add(item);
+	}
+
+	@SuppressWarnings("unused")
+	public String adicionarItem(String nome, String descricao, String categoria) throws Exception {
+		Item item = new Item(nome, descricao, categoria);
+		
+		if (item == null){
+			throw new Exception("Item nao pode ser igual a null");
+		}
+		listaMeusItens.add(item);
+		itensPraEmprestar.add(item);
+		return item.getID();
 	}
 
 }
