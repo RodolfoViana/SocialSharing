@@ -17,10 +17,8 @@ public class Mensagem {
 	
 	/**
 	 * Inicia os Atributos da Classe
-	 * @param tipoDaMensagem
-	 *                Indica qual eh o tipo da Mensagem 
-	 * @param corpoMensagem
-	 *                A Mensagem 
+	 * @param destinatario destinatario da mensagem
+	 * @param mensagem Mensagem
 	 * @param assunto
 	 *                Indica do que se trata a Mensagem
 	 */

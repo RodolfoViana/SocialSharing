@@ -79,4 +79,25 @@ public class AtividadesUsuario {
 		return false;
 	}
 
+	/**
+	 * Adiciona uma atividade
+	 * @param atividade1 Atividade 
+	 * @param criacao Criacao da atividade
+	 */
+	public void adicionarAtividades(String atividade1, long criacao) {
+		Atividade atividade = new Atividade(atividade1, criacao);
+		
+		if (!atividadeJaExiste(atividade)){
+			listaAtividades.add(atividade);
+			Collections.sort(listaAtividades);
+			try {
+				Thread.sleep(10);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
+
 }

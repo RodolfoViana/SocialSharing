@@ -775,8 +775,9 @@ public class GerenciadorUsuarios {
 	 * Cadastra um Item do Usuario
 	 * @param usuario
 	 *       Usuario dono do Item a ser cadastrado
-	 * @param it
-	 *        Item a ser cadastrado
+	 * @param nome nome do item
+	 * @param descricao do item
+	 * @param categoria do item
 	 * @return
 	 *       ID do Item
 	 * @throws Exception
@@ -798,7 +799,6 @@ public class GerenciadorUsuarios {
 		this.getListaUsuariosLogados().add(usr);
 		usr.criarHistoricoAtividades();
 		return usr.getID();
-		
 	}
 	
 	/**
@@ -871,16 +871,11 @@ public class GerenciadorUsuarios {
 	}
 	
 	/**
-	 * Devolve um item
-	 * @param usuario
-	 *         Usuario Emprestador
-	 * @param usuario2
-	 *          Usuario Beneficiado
-	 * @param item
-	 *         Item a ser devolvido
+	 * Devolve o Item
+	 * @param usuarioEmprestador Usuario Emprestador 
+	 * @param usuarioBeneficiado Usuario Beneficiado
+	 * @param item Item a ser devolvido
 	 * @throws Exception
-	 *         Caso o item ja tenha sido devolvido
-	 *         
 	 */
 	public void devolverItem(Usuario usuarioEmprestador, Usuario usuarioBeneficiado, Item item) throws Exception {
 
@@ -1050,13 +1045,13 @@ public class GerenciadorUsuarios {
 	}
 	
 	/**
-	 * Eniva uma Mensagem para outro Usuario sobre um pedido de requisicao e emrpestimo
-	 * @param idSessao
-	 * @param destinatario
-	 * @param assunto
-	 * @param mensagem
-	 * @param idRequisicaoEmprestimo
-	 * @return
+	 * Envia uma Mensagem para outro Usuario sobre um pedido de requisicao e emrpestimo
+	 * @param idSessao Usuario logado no sistema
+	 * @param destinatario Destinatario da mensagem
+	 * @param assunto Assunto da mensagem
+	 * @param mensagem Mensagem a ser enviada
+	 * @param idRequisicaoEmprestimo Requisicao de Emprestimo
+	 * @return Id da mensagem
 	 * @throws Exception
 	 */
 	public String enviarMensagem(String idSessao, String destinatario,
@@ -1088,13 +1083,13 @@ public class GerenciadorUsuarios {
 	
 	/**
 	 * Pesquisa um Item do Usuario
-	 * @param usuario2
-	 * @param chave
-	 * @param atributo
-	 * @param tipoOrdenacao
-	 * @param criterioOrdenacao
-	 * @return
-	 * @throws Exception
+	 * @param usuario2 Usuario
+	 * @param chave chave do Usuario 
+	 * @param atributo Atributo do Item
+	 * @param tipoOrdenacao tipo de ordenacao desejada
+	 * @param criterioOrdenacao criterio de ordenacao desejada
+	 * @return string da lista ordenada
+	 * @throws Exception 
 	 */
 	public String pesquisarItem(Usuario usuario2, String chave, String atributo, String tipoOrdenacao, String criterioOrdenacao)throws Exception{
 		if (!stringValida(chave)) {
@@ -1218,7 +1213,7 @@ public class GerenciadorUsuarios {
 		if(tipoAtividade.equals("amizade")){
 			String atividade1 =  nome1 +" e " + nome2 + " são amigos agora";
 			long criacao = System.currentTimeMillis();
-			buscarUsuarioPorID(idSessao).addAtividade(new Atividade(atividade1,criacao));
+			buscarUsuarioPorID(idSessao).addAtividade(atividade1,criacao);
 			
 			
 			
@@ -1227,7 +1222,7 @@ public class GerenciadorUsuarios {
 			
 			
 			
-			buscarUsuarioPorLogin(login).addAtividade(new Atividade(atividade2, criacao2));
+			buscarUsuarioPorLogin(login).addAtividade(atividade2, criacao2);
 		}
 		
 		
@@ -1250,7 +1245,7 @@ public class GerenciadorUsuarios {
 		
 		String atividade = nome1 + " emprestou " + nomeItem + " a " + nome2; 
 		long criacao = System.currentTimeMillis();
-		buscarUsuarioPorID(idSessao).addAtividade(new Atividade(atividade,criacao));
+		buscarUsuarioPorID(idSessao).addAtividade(atividade,criacao);
 		
 	}
 	
@@ -1281,21 +1276,22 @@ public class GerenciadorUsuarios {
 			String atividade1 =  nome1 + " cadastrou " + it.getNome();
 			
 			long criacao = System.currentTimeMillis();
-			buscarUsuarioPorID(idSessao).addAtividade(new Atividade(atividade1, criacao));
+			buscarUsuarioPorID(idSessao).addAtividade(atividade1, criacao);
 		}
 		else if(tipoAtividade.equals("interesse")){
 			String nome1 = buscarUsuarioPorID(idSessao).getNome();
 			String atividade1 =  nome1 + " tem interesse pelo item " + it.getNome() + " de " + buscarDonoItem(it).getNome();
 		
 			long criacao = System.currentTimeMillis();
-			buscarUsuarioPorID(idSessao).addAtividade(new Atividade(atividade1, criacao));
+			buscarUsuarioPorID(idSessao).addAtividade(atividade1, criacao);
 		}
 		else if(tipoAtividade.equals("terminoEmprestimo")){
 			String nome1 = buscarUsuarioPorID(idSessao).getNome();
 			String atividade1 =  nome1 + " confirmou o término do empréstimo do item " + it.getNome();
 			
 			long criacao = System.currentTimeMillis();
-			buscarUsuarioPorID(idSessao).addAtividade(new Atividade(atividade1, criacao));		}
+			buscarUsuarioPorID(idSessao).addAtividade(atividade1, criacao);		
+		}
 		
 		
 		
@@ -1464,7 +1460,7 @@ public class GerenciadorUsuarios {
 		String atividade = nome1 + " precisa do item " + nomeItem;
 		
 		long criacao = System.currentTimeMillis();
-		usuario.addAtividade(new Atividade(atividade,criacao));
+		usuario.addAtividade(atividade,criacao);
 		
 		String idPublicacaoPedido = usuario.getID(); 
 		getPedidos().add(new PedidoItem(atividade,idPublicacaoPedido,nomeItem,descricaoItem));
@@ -1509,7 +1505,7 @@ public class GerenciadorUsuarios {
 	public void rePublicarPedido(Usuario usuario, PedidoItem pedido) {
 		String atividade = pedido.getPedido();
 		long criacao = System.currentTimeMillis();
-		usuario.addAtividade(new Atividade(atividade,criacao));
+		usuario.addAtividade(atividade,criacao);
 	}
 
 	/**

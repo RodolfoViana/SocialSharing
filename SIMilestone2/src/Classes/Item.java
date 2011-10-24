@@ -124,7 +124,7 @@ public class Item {
     /**
      * Diz se um Item eh igual a otro
      * @param it
-     * @return
+     * @return True, caso seja igual e False, caso contrario
      */
     public boolean equals(Item it){
     	if (!(it instanceof Item)){
