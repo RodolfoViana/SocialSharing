@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.List;
 /**
  * Classe Responsavel por geocodificar um Endereco
  * @author ARTHUR SENA, RODOLFO DE LIMA, RENNAN PINTO, IGOR CRUZ
@@ -20,18 +19,6 @@ public class GeocodificaEnderecos {
 			geocodificaEnderecos = new GeocodificaEnderecos();
 		}
 		return geocodificaEnderecos;
-	}
-	
-	private static int recuperaIndiceDoMenorDaLista(List<Double> lista){
-		int indice = 0;
-		double menorDalista = Double.MAX_VALUE;
-		for(int i = 0  ; i< lista.size();i++){
-			if(lista.get(i)<=menorDalista){
-				indice = i;
-				menorDalista = lista.get(i);
-			}
-		}return indice;
-		
 	}
 	
 	/**

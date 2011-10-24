@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class MainTeste {
 	
-	private static Fachada rede = new Fachada();
+	private static RedeSocial rede = new RedeSocial();
 	private static String idSessao = null;
 	public static void main(String[] args) {
 		
