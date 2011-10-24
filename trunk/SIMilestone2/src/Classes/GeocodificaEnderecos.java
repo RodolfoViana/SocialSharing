@@ -13,7 +13,10 @@ public class GeocodificaEnderecos {
 	
 	private static GeocodificaEnderecos geocodificaEnderecos;
 	
-	
+	/**
+	 * Recupera uma instancia da classe
+	 * @return Instancia da classe
+	 */
 	public static GeocodificaEnderecos getInstance(){
 		if(geocodificaEnderecos==null){
 			geocodificaEnderecos = new GeocodificaEnderecos();

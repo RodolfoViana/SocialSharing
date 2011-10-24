@@ -2,10 +2,9 @@ package Classes;
 
 /**
  * Classe que representa uma Atividade realizada por um Usuario
- * @author ARTHUR SENA, RODOLFO DE LIMA, RENNAN PINTO, IGOR CRUZ
+ * @author ARTHUR SENA, RODOLFO DE LIMA, RENAN PINTO, IGOR CRUZ
  *
  */
-
 public class Atividade implements Comparable<Atividade>{
 	
 	private String atividade;
