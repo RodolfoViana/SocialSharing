@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.crypto.spec.IvParameterSpec;
+
 /**
  * Classe responsavel por Gerenciar os Usuarios do Sistema
  * @author ARTHUR SENA, RODOLFO DE LIMA, IGOR GOMES, RENNAN PINTO
@@ -1588,6 +1590,155 @@ public class GerenciadorUsuarios {
 
 	return resposta;
 
+	}
+
+	/**
+	 * Requisita a troca de dois itens 
+	 * @param usuario Usuario que ta interessado em trocar o item
+	 * @param itemOferecido Item oferecido pelo usuario
+	 * @param itemPedido Item pedido pelo usuario
+	 * @return Retorna o id do pedido
+	 * @throws Exception caso ocorra algum erro
+	 */
+	public String requisitarTrocaDeItem(Usuario usuario, Item itemOferecido, Item itemPedido) throws Exception {
+		Usuario usuario2 = buscarDonoItem(itemPedido);
+		
+//		if (!usuario.getGerenciadorAmizades().ehMeuAmigo(usuario2)){
+//			throw new Exception("O usuário não tem permissão para pedir a troca desse item");
+//		}
+		
+		if ( usuario2.getGerenciadorAmizades().ehMeuAmigo(usuario)){
+			
+			String assunto = "Troca do item " + itemOferecido.getNome() + " pelo item " + itemPedido.getNome();
+			String mensagem = usuario.getNome() + " a troca do item " + itemPedido.getNome();
+			itemOferecido.gerarIdPedido(usuario.getLogin(), itemOferecido.getNome(), usuario2.getLogin(), itemPedido.getNome());
+			
+			usuario.getGerenciadorMensagens().enviarMensagem(usuario2, assunto, mensagem);
+			
+			return itemOferecido.getIdPedido();
+		} else {
+			throw new Exception("O usuário não tem permissão para pedir a troca desse item");
+		}
+		
+		
+		
+		
+	}
+
+	/**
+	 * Aprova a troca do item
+	 * @param usuario Usuario que vai aprovar a troca
+	 * @param idPedido Item que vai ser trocado
+	 * @throws Exception
+	 */
+	public void aprovarTroca(Usuario usuario2, String idPedido) throws Exception {
+		Usuario usuario;
+		
+		if (!usuario2.equals(buscarDonoItemPorIdPedido(idPedido))){
+			throw new Exception ("A troca do item só pode ser aprovado pelo dono do item");
+		}
+		else{
+			usuario = buscarUsuarioPorLogin(idPedido.split("-")[0]);
+			Item item = buscarItemPorNome(idPedido.split("-")[1]);
+			Item item2 = buscarItemPorNome(idPedido.split("-")[3]);
+
+			apagarItem(usuario.getID(), item.getID());
+			
+			String idItem = item.getID();
+			String idItem2 = item2.getID();
+			
+			usuario2.getGerenciadorItens().adicionarItem(item.getNome(), item.getDescricao(), item.getCategoria());
+			item.setID(idItem);
+			
+			apagarItem(usuario2.getID(), item2.getID());
+			usuario.getGerenciadorItens().adicionarItem(item2.getNome(), item2.getDescricao(), item2.getCategoria());
+			item2.setID(idItem2);
+			
+		} 
+		
+	}
+
+	private Item buscarItemPorNome(String string) throws Exception {
+		if (!stringValida(string)) {
+			throw new Exception("Identificador do item é inválido");
+		}
+		for (Usuario usr : listaDeUsuariosLogados) {
+			for (Item it : usr.getGerenciadorItens().getListaMeusItens()) {
+				if (it.getNome().equals(string)) {
+					return it;
+				}
+			}
+		}
+		throw new Exception("Item inexistente");
+	}
+
+	@SuppressWarnings("unused")
+	private Usuario buscarDonoItemPorIdPedido(String idPedido) throws Exception {
+		Item item = null;
+		Usuario usuario = null;
+		int cont = 0;
+		String stringNome = "";
+		
+		if (!stringValida(idPedido)){
+			throw new Exception ("Identificador de pedido é inválido");
+		}
+		
+		if (idPedido.split("-").length == 4) {
+			stringNome = idPedido.split("-")[2];
+		} else {
+			throw new Exception("Requisição de pedido inexistente");
+		}
+		
+		
+		for (Usuario usr: listaDeUsuarios){
+			if (usr.getLogin()!= null && usr.getLogin().equals(stringNome)){
+				usuario = usr;
+				return usuario;
+			}		
+		}
+		
+		if (usuario == null){
+			throw new Exception("Requisição de pedido inexistente");
+		}
+		return usuario;
+	}
+
+	/**
+	 * Busca item por ID de pedido
+	 * @param idPedido Id do pedido
+	 * @return Retorna o item correspondente ao id 
+	 * @throws Exception Caso a requisicao não exista
+	 */
+	@SuppressWarnings("unused")
+	public Item buscarItemPorIDPedido(String idPedido) throws Exception {
+		Item item = null;
+		int cont = 0;
+		String stringItem = "";
+		
+		if (!stringValida(idPedido)){
+			throw new Exception ("Identificador de pedido é inválido");
+		}
+		
+		if (idPedido.split("-").length == 4) {
+			stringItem = idPedido.split("-")[1];
+		} else {
+			throw new Exception("Requisição de pedido inexistente");
+		}
+		
+		
+		for (Usuario usr: listaDeUsuarios){
+				for (Item it : usr.getGerenciadorItens().getListaMeusItens()){
+					if (it.getNome()!= null && it.getNome().equals(stringItem)){
+						item = it;
+						return item;	
+					}
+			} 			
+		}
+		
+		if (item == null){
+			throw new Exception("Requisição de pedido inexistente");
+		}
+		return item;
 	}
 	
 }

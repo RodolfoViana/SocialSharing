@@ -275,5 +275,22 @@ public class RedeSocial {
 		PedidoItem pedido = getGerenciadorUsuarios().buscarPedido(idPublicacaoPedido);
 		Usuario usuario = getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
 		this.getGerenciadorUsuarios().rePublicarPedido(usuario, pedido);
-	}	
+	}
+	
+	public String requisitarTrocaDeItem (String idSessao, String idItemOferecido, String idItemPedido) throws Exception{
+		Usuario usuario = this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
+		Item item = this.getGerenciadorUsuarios().buscarItemPorID(idItemOferecido);
+		Item item2 = this.getGerenciadorUsuarios().buscarItemPorID(idItemPedido);
+		
+		return this.getGerenciadorUsuarios().requisitarTrocaDeItem(usuario, item, item2);
+	} 
+	
+	public void aprovarTroca (String idSessao, String idPedido) throws Exception{
+		Usuario usuario = this.getGerenciadorUsuarios().buscarUsuarioPorID(idSessao);
+		this.getGerenciadorUsuarios().buscarItemPorIDPedido(idPedido);
+		this.getGerenciadorUsuarios().aprovarTroca(usuario, idPedido);	
+		
+	}
+	
+	
 }
