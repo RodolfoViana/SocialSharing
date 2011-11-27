@@ -13,6 +13,7 @@ public class Item {
     private String categoria;
     private String outrasCategorias = "";
     private String idItem;
+    private String idPedido;
     private Emprestimo emprestimo;
     
     /**
@@ -96,6 +97,10 @@ public class Item {
 		return idItem;
 	}
     
+    public void setID(String novoID){
+    	this.idItem = novoID;
+    }
+    
     /**
      * Cria uma Requisicao de Emprestimo do Item
      * @param beneficiado
@@ -134,7 +139,39 @@ public class Item {
     	return it.getID().equals(this.idItem);
     }
     
-    private boolean stringValida(String string){
+    /**
+     * Recupera o ID pedido
+     * @return Id pedido
+     */
+    public String getIdPedido() {
+		return idPedido;
+	}
+
+    /**
+     * Atribui um valor para o ID pedido
+     * @param idPedido Id pedido
+     */
+	public void setIdPedido(String idPedido) {
+		this.idPedido = idPedido;
+	}
+	
+	/**
+	 * Gera um ID do pedido
+	 * @return Sring com o ID do pedido
+	 */
+	public String gerarIdPedido(){
+		this.idPedido = getNome() + "- Pedido - " + (new Random()).nextInt(1000);
+		return idPedido;
+	}
+	
+	public String gerarIdPedido(String nome2, String nome3, String nome4,
+			String nome5) {
+		String resposta = nome2 + "-" + nome3 + "-" + nome4 + "-" + nome5;
+		this.idPedido = resposta;
+		return idPedido;	
+	}
+
+	private boolean stringValida(String string){
         if (string==null || string.isEmpty()){
             return false;
         }
@@ -212,4 +249,6 @@ public class Item {
     public void acabarEmprestimo(){
     	emprestimo = null;
     }
+
+	
 }

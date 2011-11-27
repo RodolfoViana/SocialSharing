@@ -1,0 +1,22 @@
+US21-Extra-Troca de Itens
+
+Um usuario pode querer trocar um item com outro usuario, 
+essa troca so poderar ser feita se os dois usuarios forem 
+amigos, e se os dois itens envolvidos na troca estejam 
+disponiveis (nao emprestado). 
+
+E deve passar pela seguinte etapa. 
+
+Um amigo do usuario deve pedir a troca de um item, 
+informando qual item ele quer e qual item ele oferece para 
+o seu amigo. 
+
+O usuario que recebeu esse pedido pode aprova-lo ou nao.
+
+
+
+requisitarTrocaDeItem idSessao=<String> idItemOferecido=<String> idItemPedido=<String>
+	=> Cria uma requisicao de pedido de troca, mandando mensgem para 
+		o outro usuario, e retorna o id desse pedido.
+aprovarTroca idSessao=<String> idPedido=<String>
+	=> Aprova a troca dos itens
